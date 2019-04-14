@@ -30,7 +30,7 @@ public class Turter : MonoBehaviour
                 var distance = heading.magnitude;
                 var direction = heading / distance;
 
-                if (LightManager.Instance.HeightShadow > Size * 3.0f + dist / 10.0f) 
+                if (LightManager.Instance.SizeShadow > Size * 3.0f + dist / 10.0f) 
                     direction *= -1;
 
                 //transform.LookAt(target);

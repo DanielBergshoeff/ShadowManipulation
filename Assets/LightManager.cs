@@ -12,9 +12,9 @@ public class LightManager : MonoBehaviour
 
     public static LightManager Instance;
     public Vector3 AveragePos;
-    public float LowestPointShadow;
-    public float HeighestPointShadow;
-    public float HeightShadow;
+    public float ClosestPointShadow;
+    public float FurthestPointShadow;
+    public float SizeShadow;
     public bool ShadowFound;
 
     // Start is called before the first frame update
@@ -73,8 +73,10 @@ public class LightManager : MonoBehaviour
     /// </summary>
     private void ShadowAveragePosition() {
         int count = 0;
-        float lowest = float.PositiveInfinity;
-        float heighest = float.NegativeInfinity;
+        Vector3 closest = Vector3.positiveInfinity;
+        float closestPointDistance = float.PositiveInfinity;
+        Vector3 furthest = Vector3.zero;
+        float furthestPointDistance = float.NegativeInfinity;
         Vector3 average = Vector3.zero;
         for (int i = 0; i < PlayerSkeletonParts.Count; i++) { //For each part of the skeleton
             var heading = PlayerSkeletonParts[i].position - Light.transform.position;
@@ -83,10 +85,17 @@ public class LightManager : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(PlayerSkeletonParts[i].position, direction, out hit, 100.0f)) { //Raycast from the position, directly away from the light
                 if (hit.collider.CompareTag("Wall")) {
-                    if (hit.point.y < lowest)
-                        lowest = hit.point.y;
-                    if (hit.point.y > heighest)
-                        heighest = hit.point.y;
+                    Vector3 headingToPoint = hit.point - PlayerSkeleton.transform.position;
+                    float distancePoint = headingToPoint.sqrMagnitude;
+
+                    if (distancePoint < closestPointDistance) {
+                        closestPointDistance = distancePoint;
+                        closest = hit.point;
+                    }
+                    if (distancePoint > furthestPointDistance) {
+                        furthestPointDistance = distancePoint;
+                        furthest = hit.point;
+                    }
                     average += hit.point;
                     count++;
                 }
@@ -96,9 +105,9 @@ public class LightManager : MonoBehaviour
 
         if (count > 0) {
             AveragePos = average / count;
-            LowestPointShadow = lowest;
-            HeighestPointShadow = heighest;
-            HeightShadow = heighest - lowest;
+            ClosestPointShadow = Mathf.Sqrt(closestPointDistance);
+            FurthestPointShadow = Mathf.Sqrt(furthestPointDistance);
+            SizeShadow = FurthestPointShadow - ClosestPointShadow;
             ShadowFound = true;
         }
         else
