@@ -12,10 +12,12 @@ public class LightManager : MonoBehaviour
 
     public static LightManager Instance;
     public Vector3 AveragePos;
-    public float ClosestPointShadow;
-    public float FurthestPointShadow;
+    private float ClosestPointShadow;
+    private float FurthestPointShadow;
     public float SizeShadow;
     public bool ShadowFound;
+
+    public bool ShowDebugLines = false;
 
     // Start is called before the first frame update
     void Start()
@@ -99,7 +101,8 @@ public class LightManager : MonoBehaviour
                     average += hit.point;
                     count++;
                 }
-                Debug.DrawRay(PlayerSkeletonParts[i].position, direction * 100.0f);
+                if(ShowDebugLines)
+                    Debug.DrawRay(PlayerSkeletonParts[i].position, direction * 100.0f);
             }
         }
 

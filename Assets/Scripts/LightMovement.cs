@@ -1,0 +1,45 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LightMovement : MonoBehaviour
+{
+    public GameObject lightMovementCubesParent;
+    public float Speed = 1.0f;
+    public List<Transform> lightMovementCubes;
+    private int currentCubeTarget = 0;
+    private bool lastCubeReached = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Add all the children of lightMovementCubesParent to lightMovementCubes list
+        for (int i = 0; i < lightMovementCubesParent.transform.childCount; i++) {
+            lightMovementCubes.Add(lightMovementCubesParent.transform.GetChild(i));
+            MeshRenderer temp = lightMovementCubes[i].GetComponent<MeshRenderer>();
+            if(temp != null) {
+                temp.enabled = false;
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (lastCubeReached)
+            return;
+
+        Vector3 heading = lightMovementCubes[currentCubeTarget].transform.position - transform.position;
+        float distance = heading.magnitude;
+        Vector3 direction = heading / heading.magnitude;
+
+        transform.position = transform.position + direction * Speed * Time.deltaTime;
+
+        if(distance < 0.01f) {
+            if (lightMovementCubes.Count > currentCubeTarget + 1)
+                currentCubeTarget++;
+            else
+                lastCubeReached = true;
+        }
+    }
+}
