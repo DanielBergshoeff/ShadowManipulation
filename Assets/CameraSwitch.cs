@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class CameraSwitch : MonoBehaviour
 {
+    [SerializeField] private bool farCam = false;
+
     private void OnTriggerEnter(Collider other) {
-        VirtualCameraManager.Instance.SwitchFarCamera();
+        if(farCam) {
+            VirtualCameraManager.Instance.SwitchFarCamera();
+        }
+        else {
+            VirtualCameraManager.Instance.SwitchCurveCamera();
+        }
     }
 }

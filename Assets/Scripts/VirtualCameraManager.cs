@@ -6,28 +6,36 @@ public class VirtualCameraManager : MonoBehaviour
 {
     public GameObject primaryVirtualCam;
     public GameObject farVirtualCam;
-    public GameObject closeVirtualCam;
+    public GameObject curveCamera0;
+
+    public List<GameObject> virtualCams;
 
     public static VirtualCameraManager Instance;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         Instance = this;
 
-        farVirtualCam.SetActive(false);
-        //closeVirtualCam.SetActive(false);
-    }
+        virtualCams.AddRange(new GameObject[] { farVirtualCam, curveCamera0 });
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F)) {
-            farVirtualCam.SetActive(true);
+        foreach (GameObject vcam in virtualCams) {
+            vcam.SetActive(false);
         }
     }
 
-    public void SwitchFarCamera() {
+        public void SwitchFarCamera() {
+        foreach(GameObject vcam in virtualCams) {
+            vcam.SetActive(false);
+        }
+
         farVirtualCam.SetActive(!farVirtualCam.activeSelf);
+    }
+
+    public void SwitchCurveCamera() {
+        foreach (GameObject vcam in virtualCams) {
+            vcam.SetActive(false);
+        }
+
+        curveCamera0.SetActive(true);
     }
 }
