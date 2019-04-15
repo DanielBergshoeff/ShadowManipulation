@@ -23,19 +23,19 @@ public class VirtualCameraManager : MonoBehaviour
         }
     }
 
-        public void SwitchFarCamera() {
-        foreach(GameObject vcam in virtualCams) {
-            vcam.SetActive(false);
-        }
-
-        farVirtualCam.SetActive(!farVirtualCam.activeSelf);
+    public void SwitchFarCamera() {
+        SwitchCamera(farVirtualCam);
     }
 
     public void SwitchCurveCamera() {
+        SwitchCamera(curveCamera0);
+    }
+
+    public void SwitchCamera(GameObject cam) {
+        bool preSwitch = cam.activeSelf;
         foreach (GameObject vcam in virtualCams) {
             vcam.SetActive(false);
         }
-
-        curveCamera0.SetActive(true);
+        cam.SetActive(!preSwitch);
     }
 }
