@@ -31,9 +31,8 @@ public class LightMovement : MonoBehaviour
 
         Vector3 heading = lightMovementCubes[currentCubeTarget].transform.position - transform.position;
         float distance = heading.magnitude;
-        Vector3 direction = heading / heading.magnitude;
 
-        transform.position = transform.position + direction * Speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, lightMovementCubes[currentCubeTarget].transform.position, Speed * Time.deltaTime);
 
         if(distance < 0.01f) {
             if (lightMovementCubes.Count > currentCubeTarget + 1)
