@@ -7,8 +7,13 @@ public class LightMovement : MonoBehaviour
     public GameObject lightMovementCubesParent;
     public float Speed = 1.0f;
     public List<Transform> lightMovementCubes;
+    public int Health = 3;
+
     private int currentCubeTarget = 0;
     private bool lastCubeReached = false;
+    private float startIntensity;
+    private int startHealth;
+    private Light light;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,10 @@ public class LightMovement : MonoBehaviour
                 temp.enabled = false;
             }
         }
+
+        light = GetComponentInChildren<Light>();
+        startIntensity = light.intensity;
+        startHealth = Health;
     }
 
     // Update is called once per frame
@@ -41,5 +50,10 @@ public class LightMovement : MonoBehaviour
             else
                 lastCubeReached = true;
         }
+    }
+
+    public void TakeDamage() {
+        Health--;
+        light.intensity = startIntensity * (float)Health / startHealth;
     }
 }
