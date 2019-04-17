@@ -7,16 +7,14 @@ public class Turter : MonoBehaviour
 {
     public static GameObject TurterTarget;
     public static LightMovement TurterTargetLight;
-    public static GameObject PlayerTarget;
-
-
+    
     public GameObject LocalTarget;
-    public GameObject LocalPlayerTarget;
 
     public float Size = 3.0f;
     public float Speed = 1.0f;
-    public float ViewRange = 50.0f;
+    public float ViewRange = 20.0f;
     public float AttackRange = 1.0f;
+    public float RunTime = 5.0f;
 
     private bool scared = false;
 
@@ -30,9 +28,6 @@ public class Turter : MonoBehaviour
 
         if(TurterTargetLight == null && TurterTarget != null)
             TurterTargetLight = TurterTarget.GetComponent<LightMovement>();
-
-        if(PlayerTarget == null && LocalPlayerTarget != null)
-            PlayerTarget = LocalPlayerTarget;
         
         myNavMeshAgent = GetComponent<NavMeshAgent>();
     }
@@ -45,10 +40,10 @@ public class Turter : MonoBehaviour
             return;
 
         float distLight = Vector3.Distance(transform.position, TurterTarget.transform.position);
-        float distPlayer = Vector3.Distance(transform.position, PlayerTarget.transform.position);
+        float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
 
         if (distLight < ViewRange || distPlayer < ViewRange) {
-            float distPlayerFromLight = Vector3.Distance(TurterTarget.transform.position, PlayerTarget.transform.position);
+            float distPlayerFromLight = Vector3.Distance(TurterTarget.transform.position, GameManager.Instance.Player.transform.position);
 
             if (scared && LightManager.Instance.SizeShadow > Size * 3.0f) {
                 var targetHeading = LightManager.Instance.AveragePos - transform.position;
@@ -60,15 +55,20 @@ public class Turter : MonoBehaviour
                 myNavMeshAgent.SetDestination(TurterTarget.transform.position);
             }
             else {
-                myNavMeshAgent.SetDestination(PlayerTarget.transform.position);
+                myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
             }
         }
+    }
 
+    private void Unscare() {
         scared = false;
     }
 
     public void Scare() {
-        scared = true;
+        if (!scared) {
+            scared = true;
+            Invoke("Unscare", RunTime);
+        }
     }
 
     private bool CheckAttack() {
