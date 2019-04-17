@@ -65,7 +65,7 @@ public class Turter : MonoBehaviour
 
     private bool CheckAttackLight() {
         if((new Vector3(GameManager.Instance.LightObject.transform.position.x, transform.position.y, GameManager.Instance.LightObject.transform.position.z) - transform.position).magnitude < AttackRange){
-            GameManager.Instance.LightMovementScript.TakeDamage();
+            GameManager.Instance.LightMovementScript.TakeDamage(1);
             Destroy(gameObject);
             return true;
         }
