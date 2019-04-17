@@ -50,6 +50,10 @@ public class Turter : MonoBehaviour
                 myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
             }
         }
+        else {
+            myNavMeshAgent.isStopped = true;
+            myNavMeshAgent.ResetPath();
+        }
     }
 
     private void Unscare() {

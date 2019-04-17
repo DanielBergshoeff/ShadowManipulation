@@ -1127,8 +1127,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.27984813, y: 0.36470518, z: -0.11591687, w: 0.8804763}
-  m_LocalPosition: {x: -34.9, y: 21.56, z: -25.33}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1193,7 +1193,7 @@ PrefabInstance:
     - target: {fileID: 5749314504225676195, guid: 2d79bc5539a97a94ca080980ac5404c2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 41.897667
+      value: 49.68
       objectReference: {fileID: 0}
     - target: {fileID: 5749314504225676195, guid: 2d79bc5539a97a94ca080980ac5404c2,
         type: 3}
@@ -1203,7 +1203,7 @@ PrefabInstance:
     - target: {fileID: 5749314504225676195, guid: 2d79bc5539a97a94ca080980ac5404c2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.338917
+      value: -3.9
       objectReference: {fileID: 0}
     - target: {fileID: 5749314504225676195, guid: 2d79bc5539a97a94ca080980ac5404c2,
         type: 3}
@@ -1980,7 +1980,7 @@ Transform:
   m_GameObject: {fileID: 985785317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 150, y: 1, z: 100}
+  m_LocalScale: {x: 258.70743, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 23
@@ -3395,6 +3395,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 450700109587130363, guid: 7737647c22c1fc64a88d5cd030c352ce,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0e3118d28b736d146b6baf53a4df16d4, type: 3}
+    - target: {fileID: 450700109587130363, guid: 7737647c22c1fc64a88d5cd030c352ce,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 149790, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_Name
       value: ThirdPersonController
