@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightManager : MonoBehaviour
 {
     public GameObject PlayerSkeleton;
-    public List<Transform> PlayerSkeletonParts;
+    private List<Transform> PlayerSkeletonParts;
 
     public GameObject LightObject;
     public LayerMask CubeLayer;
@@ -13,11 +13,11 @@ public class LightManager : MonoBehaviour
     public float lightRange = 10.0f;
 
     public static LightManager Instance;
-    public Vector3 AveragePos;
-    public List<Vector3> allShadowPoints;
+    [HideInInspector] public Vector3 AveragePos;
+    [HideInInspector] public List<Vector3> allShadowPoints;
     private float ClosestPointShadow;
     private float FurthestPointShadow;
-    public float SizeShadow;
+    [HideInInspector] public float SizeShadow;
     public bool ShadowFound;
 
     public bool ShowDebugLines = false;

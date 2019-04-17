@@ -7,9 +7,11 @@ public class Turter : MonoBehaviour
 {
     public static GameObject TurterTarget;
     public static LightMovement TurterTargetLight;
+    public static GameObject PlayerTarget;
 
 
     public GameObject LocalTarget;
+    public GameObject LocalPlayerTarget;
 
     public float Size = 3.0f;
     public float Speed = 1.0f;
@@ -29,6 +31,9 @@ public class Turter : MonoBehaviour
         if(TurterTargetLight == null && TurterTarget != null)
             TurterTargetLight = TurterTarget.GetComponent<LightMovement>();
 
+        if(PlayerTarget == null && LocalPlayerTarget != null)
+            PlayerTarget = LocalPlayerTarget;
+        
         myNavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
@@ -39,16 +44,24 @@ public class Turter : MonoBehaviour
         if (CheckAttack())
             return;
 
-        float dist = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
+        float distLight = Vector3.Distance(transform.position, TurterTarget.transform.position);
+        float distPlayer = Vector3.Distance(transform.position, PlayerTarget.transform.position);
 
-        if (scared && LightManager.Instance.SizeShadow > Size * 3.0f) {
-            var targetHeading = LightManager.Instance.AveragePos - transform.position;
-            var targetDirection = targetHeading / (targetHeading.magnitude);
+        if (distLight < ViewRange || distPlayer < ViewRange) {
+            float distPlayerFromLight = Vector3.Distance(TurterTarget.transform.position, PlayerTarget.transform.position);
 
-            myNavMeshAgent.SetDestination(transform.position - targetDirection);
-        }
-        else {
-            myNavMeshAgent.SetDestination(TurterTarget.transform.position);
+            if (scared && LightManager.Instance.SizeShadow > Size * 3.0f) {
+                var targetHeading = LightManager.Instance.AveragePos - transform.position;
+                var targetDirection = targetHeading / (targetHeading.magnitude);
+
+                myNavMeshAgent.SetDestination(transform.position - targetDirection);
+            }
+            else if(distPlayerFromLight < LightManager.Instance.light.intensity * LightManager.Instance.lightRange){
+                myNavMeshAgent.SetDestination(TurterTarget.transform.position);
+            }
+            else {
+                myNavMeshAgent.SetDestination(PlayerTarget.transform.position);
+            }
         }
 
         scared = false;
@@ -57,42 +70,6 @@ public class Turter : MonoBehaviour
     public void Scare() {
         scared = true;
     }
-
-
-    /*
-    private void Move() {
-        if (LightManager.Instance.ShadowFound) {
-            float dist = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
-            if (dist <= ViewRange) {
-                Vector3 target = new Vector3(LightManager.Instance.AveragePos.x, transform.position.y, LightManager.Instance.AveragePos.z);
-                var heading = target - transform.position;
-                var distance = heading.magnitude;
-                var direction = heading / distance;
-
-                if (LightManager.Instance.SizeShadow > Size * 3.0f + dist / 10.0f) { //If the shadow is big
-                    float closestPointDistance = float.PositiveInfinity;
-                    Vector3 closestPoint = Vector3.zero;
-                    foreach(Vector3 point in LightManager.Instance.allShadowPoints) {
-                        float distancePoint = (point - transform.position).sqrMagnitude;
-                        if (distancePoint < closestPointDistance) {
-                            closestPointDistance = distancePoint;
-                            closestPoint = point;
-                        }
-                    }
-                    var targetHeading = closestPoint - transform.position;
-                    var targetDirection = targetHeading / (targetHeading.magnitude);
-                    if(closestPointDistance < LightManager.Instance.SizeShadow * 0.5f)
-                        myNavMeshAgent.SetDestination(transform.position - targetDirection);
-                    else
-                        myNavMeshAgent.SetDestination(TurterTarget.transform.position);
-                }
-                else {
-                    //transform.LookAt(target);
-                    myNavMeshAgent.SetDestination(TurterTarget.transform.position); //If the shadow is relatively small
-                }
-            }
-        }
-    } */
 
     private bool CheckAttack() {
         if((new Vector3(TurterTarget.transform.position.x, transform.position.y, TurterTarget.transform.position.z) - transform.position).magnitude < AttackRange){
