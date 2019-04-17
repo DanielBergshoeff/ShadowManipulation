@@ -28,7 +28,7 @@ public class Turter : MonoBehaviour
     void Update()
     {
         //Move();
-        if (CheckAttack())
+        if (CheckAttackLight() || CheckAttackPlayer())
             return;
 
         float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
@@ -50,6 +50,10 @@ public class Turter : MonoBehaviour
                 myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
             }
         }
+        else {
+            myNavMeshAgent.isStopped = true;
+            myNavMeshAgent.ResetPath();
+        }
     }
 
     private void Unscare() {
@@ -63,16 +67,24 @@ public class Turter : MonoBehaviour
         }
     }
 
-    private bool CheckAttack() {
+    private bool CheckAttackLight() {
         if((new Vector3(GameManager.Instance.LightObject.transform.position.x, transform.position.y, GameManager.Instance.LightObject.transform.position.z) - transform.position).magnitude < AttackRange){
-            Attack();
+            GameManager.Instance.LightMovementScript.TakeDamage(1);
+            Destroy(gameObject);
             return true;
         }
         return false;
     }
 
-    private void Attack() {
-        GameManager.Instance.LightMovementScript.TakeDamage();
-        Destroy(gameObject);
+    private bool CheckAttackPlayer() {
+        if ((new Vector3(GameManager.Instance.Player.transform.position.x, transform.position.y, GameManager.Instance.Player.transform.position.z) - transform.position).magnitude < AttackRange) {
+            GameManager.Instance.Respawn();
+            return true;
+        }
+        return false;
+    }
+
+    private void AttackLight() {
+        
     }
 }

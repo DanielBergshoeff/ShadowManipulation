@@ -51,8 +51,23 @@ public class LightMovement : MonoBehaviour
         }
     }
 
-    public void TakeDamage() {
-        Health--;
+    public void TakeDamage(int dmg) {
+        if (Health - dmg >= 0) {
+            Health -= dmg;
+            light.intensity = startIntensity * (float)Health / startHealth;
+        }
+        else {
+            Health = 0;
+            light.intensity = 0f;
+        }
+    }
+
+    public void AddHealth(int health) {
+        if (Health + health <= startHealth)
+            Health += health;
+        else
+            Health = startHealth;
+
         light.intensity = startIntensity * (float)Health / startHealth;
     }
 }
