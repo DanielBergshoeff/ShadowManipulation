@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public LightMovement LightMovementScript;
+    public GameObject LightObject;
     public GameObject Player;
     public GameObject SpawnPoint;
 
@@ -15,6 +17,8 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         Player.transform.position = SpawnPoint.transform.position;
+
+        LightMovementScript = LightObject.GetComponent<LightMovement>();
     }
 
     // Update is called once per frame
