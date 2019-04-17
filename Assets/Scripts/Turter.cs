@@ -5,18 +5,14 @@ using UnityEngine.AI;
 
 public class Turter : MonoBehaviour
 {
-    public static GameObject TurterTarget;
-    public static LightMovement TurterTargetLight;
-    public static GameObject PlayerTarget;
-
-
+    
     public GameObject LocalTarget;
-    public GameObject LocalPlayerTarget;
 
     public float Size = 3.0f;
     public float Speed = 1.0f;
-    public float ViewRange = 50.0f;
+    public float ViewRange = 20.0f;
     public float AttackRange = 1.0f;
+    public float RunTime = 5.0f;
 
     private bool scared = false;
 
@@ -24,16 +20,7 @@ public class Turter : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        if (TurterTarget == null && LocalTarget != null)
-            TurterTarget = LocalTarget;
-
-        if(TurterTargetLight == null && TurterTarget != null)
-            TurterTargetLight = TurterTarget.GetComponent<LightMovement>();
-
-        if(PlayerTarget == null && LocalPlayerTarget != null)
-            PlayerTarget = LocalPlayerTarget;
-        
+    {        
         myNavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
@@ -44,11 +31,11 @@ public class Turter : MonoBehaviour
         if (CheckAttack())
             return;
 
-        float distLight = Vector3.Distance(transform.position, TurterTarget.transform.position);
-        float distPlayer = Vector3.Distance(transform.position, PlayerTarget.transform.position);
+        float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
+        float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
 
         if (distLight < ViewRange || distPlayer < ViewRange) {
-            float distPlayerFromLight = Vector3.Distance(TurterTarget.transform.position, PlayerTarget.transform.position);
+            float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
 
             if (scared && LightManager.Instance.SizeShadow > Size * 3.0f) {
                 var targetHeading = LightManager.Instance.AveragePos - transform.position;
@@ -57,22 +44,27 @@ public class Turter : MonoBehaviour
                 myNavMeshAgent.SetDestination(transform.position - targetDirection);
             }
             else if(distPlayerFromLight < LightManager.Instance.light.intensity * LightManager.Instance.lightRange){
-                myNavMeshAgent.SetDestination(TurterTarget.transform.position);
+                myNavMeshAgent.SetDestination(GameManager.Instance.LightObject.transform.position);
             }
             else {
-                myNavMeshAgent.SetDestination(PlayerTarget.transform.position);
+                myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
             }
         }
+    }
 
+    private void Unscare() {
         scared = false;
     }
 
     public void Scare() {
-        scared = true;
+        if (!scared) {
+            scared = true;
+            Invoke("Unscare", RunTime);
+        }
     }
 
     private bool CheckAttack() {
-        if((new Vector3(TurterTarget.transform.position.x, transform.position.y, TurterTarget.transform.position.z) - transform.position).magnitude < AttackRange){
+        if((new Vector3(GameManager.Instance.LightObject.transform.position.x, transform.position.y, GameManager.Instance.LightObject.transform.position.z) - transform.position).magnitude < AttackRange){
             Attack();
             return true;
         }
@@ -80,7 +72,7 @@ public class Turter : MonoBehaviour
     }
 
     private void Attack() {
-        TurterTargetLight.TakeDamage();
+        GameManager.Instance.LightMovementScript.TakeDamage();
         Destroy(gameObject);
     }
 }
