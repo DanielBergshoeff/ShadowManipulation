@@ -7,28 +7,38 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public LightMovement LightMovementScript;
+    [HideInInspector] public LightMovement LightMovementScript;
     public GameObject LightObject;
     public GameObject Player;
-    public GameObject SpawnPoint;
+    public Checkpoint currentCheckPoint;
+    public List<Checkpoint> checkPoints;
+
+
+    [Header("Checkpoints")]
+    public Color emissionColorCheckpoint;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        Player.transform.position = SpawnPoint.transform.position;
+        Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
+        checkPoints = new List<Checkpoint>();
 
         LightMovementScript = LightObject.GetComponent<LightMovement>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Respawn() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void CheckPointReached(Checkpoint checkpoint) {
+        foreach (Checkpoint cp in checkPoints) {
+            if (cp == checkpoint)
+                cp.Activate();
+            else
+                cp.Deactivate();
+        }
+        currentCheckPoint = checkpoint;
     }
 }
