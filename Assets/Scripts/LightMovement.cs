@@ -7,6 +7,7 @@ public class LightMovement : MonoBehaviour
     public GameObject lightMovementCubesParent;
     public List<LightPathNode> lightPathNodes;
     public int Health = 3;
+    public bool StayOnPlayer = false;
 
     private int currentCubeTarget = 0;
     private bool lastCubeReached = false;
@@ -35,23 +36,37 @@ public class LightMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lastCubeReached || wait)
-            return;
+        if (StayOnPlayer) {
+            transform.position = GameManager.Instance.Player.transform.position;
 
-        Vector3 heading = lightPathNodes[currentCubeTarget].transform.position - transform.position;
-        float distance = heading.magnitude;
-
-        transform.position = Vector3.MoveTowards(transform.position, lightPathNodes[currentCubeTarget].transform.position, lightPathNodes[currentCubeTarget].speedTowardsNode * Time.deltaTime);
-
-        if(distance < 0.01f) {
-            if (lightPathNodes.Count > currentCubeTarget + 1) {
-                currentCubeTarget++;
-                wait = true;
-                Invoke("NextNode", lightPathNodes[currentCubeTarget].timePauseAtNode);
-
+            float f = Input.GetAxis("HorizontalTurn");
+            if (f > 0.5f) {
+                transform.Rotate(0f, -3.0f, 0f);
             }
-            else
-                lastCubeReached = true;
+            else if (f < -0.5f) {
+                transform.Rotate(0f, 3.0f, 0f);
+            }
+        }
+        else {
+
+            if (lastCubeReached || wait)
+                return;
+
+            Vector3 heading = lightPathNodes[currentCubeTarget].transform.position - transform.position;
+            float distance = heading.magnitude;
+
+            transform.position = Vector3.MoveTowards(transform.position, lightPathNodes[currentCubeTarget].transform.position, lightPathNodes[currentCubeTarget].speedTowardsNode * Time.deltaTime);
+
+            if (distance < 0.01f) {
+                if (lightPathNodes.Count > currentCubeTarget + 1) {
+                    currentCubeTarget++;
+                    wait = true;
+                    Invoke("NextNode", lightPathNodes[currentCubeTarget].timePauseAtNode);
+
+                }
+                else
+                    lastCubeReached = true;
+            }
         }
     }
 

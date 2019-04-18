@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
 
     private Color c;
 
-    private bool enabled = false;
+    private new bool enabled = false;
 
     private void Start() {
         GameManager.Instance.checkPoints.Add(this);
