@@ -5,8 +5,7 @@ using UnityEngine;
 public class LightMovement : MonoBehaviour
 {
     public GameObject lightMovementCubesParent;
-    public float Speed = 1.0f;
-    public List<Transform> lightMovementCubes;
+    public List<LightPathNode> lightPathNodes;
     public int Health = 3;
 
     private int currentCubeTarget = 0;
@@ -14,14 +13,15 @@ public class LightMovement : MonoBehaviour
     private float startIntensity;
     private int startHealth;
     private Light light;
+    private bool wait = false;
 
     // Start is called before the first frame update
     void Start()
     {
         // Add all the children of lightMovementCubesParent to lightMovementCubes list
         for (int i = 0; i < lightMovementCubesParent.transform.childCount; i++) {
-            lightMovementCubes.Add(lightMovementCubesParent.transform.GetChild(i));
-            MeshRenderer temp = lightMovementCubes[i].GetComponent<MeshRenderer>();
+            lightPathNodes.Add(lightMovementCubesParent.transform.GetChild(i).GetComponent<LightPathNode>());
+            MeshRenderer temp = lightPathNodes[i].GetComponent<MeshRenderer>();
             if(temp != null) {
                 temp.enabled = false;
             }
@@ -35,20 +35,28 @@ public class LightMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lastCubeReached)
+        if (lastCubeReached || wait)
             return;
 
-        Vector3 heading = lightMovementCubes[currentCubeTarget].transform.position - transform.position;
+        Vector3 heading = lightPathNodes[currentCubeTarget].transform.position - transform.position;
         float distance = heading.magnitude;
 
-        transform.position = Vector3.MoveTowards(transform.position, lightMovementCubes[currentCubeTarget].transform.position, Speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, lightPathNodes[currentCubeTarget].transform.position, lightPathNodes[currentCubeTarget].speedTowardsNode * Time.deltaTime);
 
         if(distance < 0.01f) {
-            if (lightMovementCubes.Count > currentCubeTarget + 1)
+            if (lightPathNodes.Count > currentCubeTarget + 1) {
                 currentCubeTarget++;
+                wait = true;
+                Invoke("NextNode", lightPathNodes[currentCubeTarget].timePauseAtNode);
+
+            }
             else
                 lastCubeReached = true;
         }
+    }
+
+    private void NextNode() {
+        wait = false;
     }
 
     public void TakeDamage(int dmg) {
