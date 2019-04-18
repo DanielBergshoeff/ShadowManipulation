@@ -12,15 +12,16 @@ public class Checkpoint : MonoBehaviour
     private new bool enabled = false;
 
     private void Start() {
-        GameManager.Instance.checkPoints.Add(this);
         c = GameManager.Instance.emissionColorCheckpoint;
         myMaterial = GetComponent<Renderer>().material;
         myMaterial.SetColor("_EmissionColor", new Vector4(c.r, c.g, c.b, 0) * 1.0f);
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (!enabled) {
-            GameManager.Instance.CheckPointReached(this);
+        if (other.CompareTag("Player")) {
+            if (!enabled) {
+                GameManager.Instance.CheckPointReached(this);
+            }
         }
     }
 

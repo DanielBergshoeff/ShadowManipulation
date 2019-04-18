@@ -13,19 +13,30 @@ public class GameManager : MonoBehaviour
     public Checkpoint currentCheckPoint;
     public List<Checkpoint> checkPoints;
 
+    public static int currentCheckPointNr;
 
     [Header("Checkpoints")]
     public Color emissionColorCheckpoint;
+
+    private bool startFunction = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
-        checkPoints = new List<Checkpoint>();
-
+        
         LightMovementScript = LightObject.GetComponent<LightMovement>();
+    }
+
+    private void Update() {
+        if (startFunction) {
+            Debug.Log(currentCheckPointNr);
+            currentCheckPoint = checkPoints[currentCheckPointNr];
+            Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
+
+            startFunction = false;
+        }
     }
 
     public void Respawn() {
@@ -40,5 +51,6 @@ public class GameManager : MonoBehaviour
                 cp.Deactivate();
         }
         currentCheckPoint = checkpoint;
+        currentCheckPointNr = checkPoints.IndexOf(currentCheckPoint);
     }
 }
