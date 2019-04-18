@@ -13,7 +13,7 @@ public class LightMovement : MonoBehaviour
     private bool lastCubeReached = false;
     private float startIntensity;
     private int startHealth;
-    private Light light;
+    public Light sphereLight;
     private bool wait = false;
 
     // Start is called before the first frame update
@@ -28,8 +28,8 @@ public class LightMovement : MonoBehaviour
             }
         }
 
-        light = GetComponentInChildren<Light>();
-        startIntensity = light.intensity;
+        sphereLight = GetComponentInChildren<Light>();
+        startIntensity = sphereLight.intensity;
         startHealth = Health;
     }
 
@@ -77,11 +77,11 @@ public class LightMovement : MonoBehaviour
     public void TakeDamage(int dmg) {
         if (Health - dmg >= 0) {
             Health -= dmg;
-            light.intensity = startIntensity * (float)Health / startHealth;
+            sphereLight.intensity = startIntensity * (float)Health / startHealth;
         }
         else {
             Health = 0;
-            light.intensity = 0f;
+            sphereLight.intensity = 0f;
         }
     }
 
@@ -91,6 +91,6 @@ public class LightMovement : MonoBehaviour
         else
             Health = startHealth;
 
-        light.intensity = startIntensity * (float)Health / startHealth;
+        sphereLight.intensity = startIntensity * (float)Health / startHealth;
     }
 }

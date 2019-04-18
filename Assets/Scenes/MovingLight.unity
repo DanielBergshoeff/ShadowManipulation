@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.63964283, g: 0.63964283, b: 0.7338973, a: 1}
+  m_IndirectSpecularColor: {r: 0.5254071, g: 0.5254071, b: 0.6416234, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSkeleton: {fileID: 1575892023}
-  LightObject: {fileID: 872514014}
+  LightObject: {fileID: 685561063}
   CubeLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -1510,7 +1510,7 @@ MonoBehaviour:
   lightMovementCubesParent: {fileID: 1039422803}
   lightPathNodes: []
   Health: 3
-  StayOnPlayer: 1
+  StayOnPlayer: 0
 --- !u!4 &744958812 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8219730119528820829, guid: e1babbfbd9aeb504b8ea7eb7de94f133,

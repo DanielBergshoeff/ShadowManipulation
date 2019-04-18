@@ -58,7 +58,7 @@ public class LightManager : MonoBehaviour
     private void ShadowCube() {
         List<GameObject> cubesTouchedByShadow = new List<GameObject>(); //Create new list of cubes
         for (int i = 0; i < PlayerSkeletonParts.Count; i++) { //For each part of the skeleton
-            var heading = PlayerSkeletonParts[i].position - LightObject.transform.position;
+            var heading = PlayerSkeletonParts[i].position - light.transform.position;
             var distance = heading.magnitude;
             var direction = heading / distance;
             RaycastHit hit;
@@ -85,7 +85,7 @@ public class LightManager : MonoBehaviour
         float furthestPointDistance = float.NegativeInfinity;
         Vector3 average = Vector3.zero;
         for (int i = 0; i < PlayerSkeletonParts.Count; i++) { //For each part of the skeleton
-            var heading = PlayerSkeletonParts[i].position - LightObject.transform.position;
+            var heading = PlayerSkeletonParts[i].position - light.transform.position;
             var distance = heading.magnitude;
             var direction = heading / distance;
             RaycastHit hit;
