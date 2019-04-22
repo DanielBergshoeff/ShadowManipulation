@@ -37,8 +37,10 @@ public class Turter : MonoBehaviour
         if (distLight < ViewRange || distPlayer < ViewRange) {
             float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
 
-            if (scared && LightManager.Instance.SizeShadow > Size * 3.0f) {
-                var targetHeading = LightManager.Instance.AveragePos - transform.position;
+            if (scared /* && LightManager.Instance.SizeShadow > Size * 3.0f*/) {
+                //var targetHeading = LightManager.Instance.AveragePos - transform.position;
+
+                var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
                 var targetDirection = targetHeading / (targetHeading.magnitude);
 
                 myNavMeshAgent.SetDestination(transform.position - targetDirection);
