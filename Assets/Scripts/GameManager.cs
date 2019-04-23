@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
 
     private void Update() {
         if (startFunction) {
-            Debug.Log(currentCheckPointNr);
             currentCheckPoint = checkPoints[currentCheckPointNr];
             Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
 

@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class Turter : MonoBehaviour
 {
-    
     public GameObject LocalTarget;
 
     public float Size = 3.0f;
@@ -15,6 +14,7 @@ public class Turter : MonoBehaviour
     public float RunTime = 5.0f;
 
     private bool scared = false;
+    public bool oldSystem = false;
 
     private NavMeshAgent myNavMeshAgent;
 
@@ -22,41 +22,83 @@ public class Turter : MonoBehaviour
     void Start()
     {        
         myNavMeshAgent = GetComponent<NavMeshAgent>();
+        myNavMeshAgent.speed = Speed;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         //Move();
         if (CheckAttackLight())
             return;
 
         float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
         float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
+        float distShadow = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
+        
 
-        if (distLight < ViewRange || distPlayer < ViewRange) {
-            float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
+        if (oldSystem) {
+            if (distLight < ViewRange || distPlayer < ViewRange) {
+                float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
 
-            if (scared /* && LightManager.Instance.SizeShadow > Size * 3.0f*/) {
-                //var targetHeading = LightManager.Instance.AveragePos - transform.position;
 
-                var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
-                var targetDirection = targetHeading / (targetHeading.magnitude);
+                if (scared /* && LightManager.Instance.SizeShadow > Size * 3.0f*/) {
+                    //var targetHeading = LightManager.Instance.AveragePos - transform.position;
 
-                myNavMeshAgent.SetDestination(transform.position - targetDirection);
-            }
-            else if(distPlayerFromLight < LightManager.Instance.light.intensity * LightManager.Instance.lightRange){
-                myNavMeshAgent.SetDestination(GameManager.Instance.LightObject.transform.position);
+                    var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
+                    var targetDirection = targetHeading / (targetHeading.magnitude);
+
+                    myNavMeshAgent.SetDestination(transform.position - targetDirection);
+                }
+                else if (distPlayerFromLight < LightManager.Instance.light.intensity * LightManager.Instance.lightRange) {
+                    myNavMeshAgent.SetDestination(GameManager.Instance.LightObject.transform.position);
+                }
+                else {
+                    myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
+                    if (CheckAttackPlayer())
+                        return;
+                }
             }
             else {
-                myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
-                if (CheckAttackPlayer())
-                    return;
+                myNavMeshAgent.isStopped = true;
+                myNavMeshAgent.ResetPath();
             }
         }
         else {
-            myNavMeshAgent.isStopped = true;
-            myNavMeshAgent.ResetPath();
+            if (distLight < ViewRange || distPlayer < ViewRange) { //If the light is within range of the turtle
+                float speedCalculation = Size * distShadow - LightManager.Instance.SizeShadow;
+                Debug.Log("Size shadow: " + LightManager.Instance.SizeShadow);
+
+                Debug.Log(speedCalculation / 50);
+                speedCalculation = Mathf.Clamp(speedCalculation, -1f, 1f);
+
+                if (speedCalculation >= 0) { //If the speed calculated is positive
+                myNavMeshAgent.speed = Speed * speedCalculation;
+                float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
+
+                    if(distPlayer < ViewRange && distPlayerFromLight > LightManager.Instance.light.intensity * LightManager.Instance.lightRange) { //If the player is within range and the player is out of range of the light
+                        myNavMeshAgent.SetDestination(GameManager.Instance.Player.transform.position);
+                        CheckAttackLight();
+                    }
+                    else {
+                        myNavMeshAgent.SetDestination(GameManager.Instance.LightObject.transform.position);
+                        CheckAttackPlayer();
+                    }
+                }
+                else { //If the speed calculated is negative
+                    myNavMeshAgent.speed = Speed * Mathf.Abs(speedCalculation);
+
+                    var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
+                    var targetDirection = targetHeading / (targetHeading.magnitude);
+
+                    myNavMeshAgent.SetDestination(transform.position - targetDirection);
+                }
+            }
+            else {
+                myNavMeshAgent.isStopped = true;
+                myNavMeshAgent.ResetPath();
+            }
+            
+            
         }
     }
 
