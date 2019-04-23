@@ -7,14 +7,12 @@ public class Checkpoint : MonoBehaviour
     public Transform SpawnPoint;
     public Material myMaterial;
 
-    private Color c;
+    public GameObject showActivated;
 
     private new bool enabled = false;
 
     private void Start() {
-        c = GameManager.Instance.emissionColorCheckpoint;
-        myMaterial = GetComponent<Renderer>().material;
-        myMaterial.SetColor("_EmissionColor", new Vector4(c.r, c.g, c.b, 0) * 1.0f);
+        showActivated.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -26,12 +24,12 @@ public class Checkpoint : MonoBehaviour
     }
 
     public void Activate() {
-        myMaterial.SetColor("_EmissionColor", new Vector4(c.r, c.g, c.b, 0) * 2.0f);
         enabled = true;
+        showActivated.SetActive(true);
     }
 
     public void Deactivate() {
-        myMaterial.SetColor("_EmissionColor", new Vector4(c.r, c.g, c.b, 0) * 1.0f);
         enabled = false;
+        showActivated.SetActive(false);
     }
 }

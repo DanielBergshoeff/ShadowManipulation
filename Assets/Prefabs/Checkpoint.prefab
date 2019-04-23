@@ -123,7 +123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnPoint: {fileID: 8219730119966240579}
-  light: {fileID: 8219730119559211797}
+  myMaterial: {fileID: 0}
+  showActivated: {fileID: 8219730119559211795}
 --- !u!1 &8219730119559211795
 GameObject:
   m_ObjectHideFlags: 0

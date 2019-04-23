@@ -15,9 +15,6 @@ public class GameManager : MonoBehaviour
 
     public static int currentCheckPointNr;
 
-    [Header("Checkpoints")]
-    public Color emissionColorCheckpoint;
-
     private bool startFunction = true;
 
 
