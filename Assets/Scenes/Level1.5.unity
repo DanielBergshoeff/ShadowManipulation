@@ -111,7 +111,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 214c08c0d80c9024a9944a159eacee4e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f094a2746e2c16a46915c6cbf24d0ac3, type: 2}
 --- !u!1 &3965752
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +163,6 @@ MonoBehaviour:
   - {fileID: 744958814}
   - {fileID: 1864749027}
   - {fileID: 391569006}
-  emissionColorCheckpoint: {r: 0.5019608, g: 0.25882354, b: 0.45490196, a: 0.7058824}
 --- !u!1 &21510846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,6 +1284,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 299.24387
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969200274542250462, guid: 97320919d193d6f43b8336431649b8ea,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97320919d193d6f43b8336431649b8ea, type: 3}
@@ -3425,7 +3429,7 @@ PrefabInstance:
     - target: {fileID: 281326737709183096, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.73
+      value: 2.876
       objectReference: {fileID: 0}
     - target: {fileID: 281326737709183096, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
@@ -3495,7 +3499,7 @@ PrefabInstance:
     - target: {fileID: 281326737709183098, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
       propertyPath: Size
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 281326737709183098, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
@@ -12350,7 +12354,7 @@ PrefabInstance:
     - target: {fileID: 281326737709183096, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3294
+      value: 3.33
       objectReference: {fileID: 0}
     - target: {fileID: 281326737709183096, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
@@ -12435,7 +12439,7 @@ PrefabInstance:
     - target: {fileID: 281326737709183098, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
       propertyPath: Size
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 281326737709183098, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
@@ -13525,6 +13529,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1579180523}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1609812678 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2706123974694815677, guid: 9ff2818bb6dbe6740b2482f14d612e12,
+    type: 3}
+  m_PrefabInstance: {fileID: 635737781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1609812681
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609812678}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 4c65e40672202c2458577da62eb9ed96, type: 3}
 --- !u!1 &1610298688
 GameObject:
   m_ObjectHideFlags: 0
@@ -13767,6 +13791,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1619992304}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1625417188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2706123974694815677, guid: 9ff2818bb6dbe6740b2482f14d612e12,
+    type: 3}
+  m_PrefabInstance: {fileID: 209046894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1625417191
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625417188}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 4c65e40672202c2458577da62eb9ed96, type: 3}
 --- !u!4 &1637731524 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8490861880114660925, guid: fd4b2bb1f5c7cad48a1295c0b69a5cc8,
