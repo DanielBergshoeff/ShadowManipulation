@@ -40,7 +40,6 @@ public class Turter : MonoBehaviour
             if (distLight < ViewRange || distPlayer < ViewRange) {
                 float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
 
-
                 if (scared /* && LightManager.Instance.SizeShadow > Size * 3.0f*/) {
                     //var targetHeading = LightManager.Instance.AveragePos - transform.position;
 
@@ -66,13 +65,12 @@ public class Turter : MonoBehaviour
         else {
             if (distLight < ViewRange || distPlayer < ViewRange) { //If the light is within range of the turtle
                 float speedCalculation = Size * distShadow - LightManager.Instance.SizeShadow;
-                Debug.Log("Size shadow: " + LightManager.Instance.SizeShadow);
-
-                Debug.Log(speedCalculation / 50);
-                speedCalculation = Mathf.Clamp(speedCalculation, -1f, 1f);
+                speedCalculation = Mathf.Clamp(speedCalculation / 50, -1f, 1f);
 
                 if (speedCalculation >= 0) { //If the speed calculated is positive
-                myNavMeshAgent.speed = Speed * speedCalculation;
+                    speedCalculation = Mathf.Clamp(speedCalculation, 0.5f, 1.0f);
+
+                    myNavMeshAgent.speed = Speed * speedCalculation;
                 float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
 
                     if(distPlayer < ViewRange && distPlayerFromLight > LightManager.Instance.light.intensity * LightManager.Instance.lightRange) { //If the player is within range and the player is out of range of the light
@@ -85,9 +83,10 @@ public class Turter : MonoBehaviour
                     }
                 }
                 else { //If the speed calculated is negative
-                    myNavMeshAgent.speed = Speed * Mathf.Abs(speedCalculation);
+                    speedCalculation = Mathf.Clamp(Mathf.Abs(speedCalculation), 0.5f, 1.0f);
+                    myNavMeshAgent.speed = Speed * speedCalculation;
 
-                    var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
+                    var targetHeading = LightManager.Instance.AveragePos - transform.position;
                     var targetDirection = targetHeading / (targetHeading.magnitude);
 
                     myNavMeshAgent.SetDestination(transform.position - targetDirection);
