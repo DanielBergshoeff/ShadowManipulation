@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 114797043394103474}
   - {fileID: 114506654308403304}
   - {fileID: 114269003865274508}
+  - {fileID: 114373903060142026}
 --- !u!114 &114269003865274508
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -28,28 +29,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 1.33
+    value: 7.76
   threshold:
     overrideState: 1
-    value: 0.89
+    value: 15.9
   softKnee:
     overrideState: 1
-    value: 1
+    value: 0.827
   clamp:
     overrideState: 1
     value: 65472
   diffusion:
     overrideState: 1
-    value: 7.85
+    value: 4.57
   anamorphicRatio:
     overrideState: 1
-    value: 0
+    value: 0.07
   color:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -58,11 +59,60 @@ MonoBehaviour:
     value: 0
   dirtTexture:
     overrideState: 1
-    value: {fileID: 2800000, guid: 7bff682e8d1dfa741899a4cec422099f, type: 3}
+    value: {fileID: 0}
     defaultState: 1
   dirtIntensity:
     overrideState: 1
-    value: 2.56
+    value: 6.07
+--- !u!114 &114373903060142026
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
+  m_Name: AmbientOcclusion
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 1
+  intensity:
+    overrideState: 1
+    value: 0.13
+  color:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 1}
+  ambientOnly:
+    overrideState: 1
+    value: 1
+  noiseFilterTolerance:
+    overrideState: 1
+    value: 0
+  blurTolerance:
+    overrideState: 1
+    value: -4.6
+  upsampleTolerance:
+    overrideState: 1
+    value: -12
+  thicknessModifier:
+    overrideState: 1
+    value: 2.4
+  directLightingStrength:
+    overrideState: 1
+    value: 0.157
+  radius:
+    overrideState: 1
+    value: 0.25
+  quality:
+    overrideState: 1
+    value: 2
 --- !u!114 &114506654308403304
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -84,7 +134,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.4
+    value: 0.444
   size:
     overrideState: 1
     value: 0.32
@@ -144,7 +194,7 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: 0
+    value: 5
   tint:
     overrideState: 1
     value: 0
@@ -162,7 +212,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: -0.79
+    value: 0.94
   contrast:
     overrideState: 1
     value: 0
@@ -195,13 +245,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.7522936}
+    value: {x: 1, y: 1, z: 1, w: 0.018348616}
   gamma:
     overrideState: 1
     value: {x: 1, y: 1, z: 1, w: 0}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.6430867}
+    value: {x: 1, y: 1, z: 1, w: 1}
   masterCurve:
     overrideState: 1
     value:
