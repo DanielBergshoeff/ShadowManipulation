@@ -59,10 +59,9 @@ public class LightMovement : MonoBehaviour
 
             if (distance < 0.01f) {
                 if (lightPathNodes.Count > currentCubeTarget + 1) {
+                    Invoke("NextNode", lightPathNodes[currentCubeTarget].timePauseAtNode);
                     currentCubeTarget++;
                     wait = true;
-                    Invoke("NextNode", lightPathNodes[currentCubeTarget].timePauseAtNode);
-
                 }
                 else
                     lastCubeReached = true;
