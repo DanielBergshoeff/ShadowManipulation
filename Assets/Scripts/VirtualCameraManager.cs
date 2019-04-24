@@ -5,8 +5,6 @@ using UnityEngine;
 public class VirtualCameraManager : MonoBehaviour
 {
     public GameObject primaryVirtualCam;
-    public GameObject farVirtualCam;
-    public GameObject curveCamera0;
 
     public List<GameObject> virtualCams;
 
@@ -16,19 +14,11 @@ public class VirtualCameraManager : MonoBehaviour
     void Start() {
         Instance = this;
 
-        virtualCams.AddRange(new GameObject[] { farVirtualCam, curveCamera0 });
+        virtualCams = new List<GameObject>();
 
         foreach (GameObject vcam in virtualCams) {
             vcam.SetActive(false);
         }
-    }
-
-    public void SwitchFarCamera() {
-        SwitchCamera(farVirtualCam);
-    }
-
-    public void SwitchCurveCamera() {
-        SwitchCamera(curveCamera0);
     }
 
     public void SwitchCamera(GameObject cam) {
@@ -37,5 +27,12 @@ public class VirtualCameraManager : MonoBehaviour
             vcam.SetActive(false);
         }
         cam.SetActive(!preSwitch);
+    }
+
+    public void AddCameraToList(GameObject cam) {
+        virtualCams.Add(cam);
+        if(cam != primaryVirtualCam) {
+            cam.SetActive(false);
+        }
     }
 }

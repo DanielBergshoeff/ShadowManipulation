@@ -6,4 +6,5 @@ public class LightPathNode : MonoBehaviour
 {
     public float timePauseAtNode;
     public float speedTowardsNode;
+    public bool waitForPlayer;
 }

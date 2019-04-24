@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class CameraSwitch : MonoBehaviour
 {
-    [SerializeField] private bool farCam = false;
+    public GameObject cameraToSwitch;
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
-            if (farCam) {
-                VirtualCameraManager.Instance.SwitchFarCamera();
-            }
-            else {
-                VirtualCameraManager.Instance.SwitchCurveCamera();
-            }
+            VirtualCameraManager.Instance.SwitchCamera(cameraToSwitch);
         }
     }
 }

@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.HDPipeline;
 
 public class LightMovement : MonoBehaviour
 {
     public GameObject lightMovementCubesParent;
     public List<LightPathNode> lightPathNodes;
     public int Health = 3;
+    public int maxHealth = 3;
     public bool StayOnPlayer = false;
 
     private int currentCubeTarget = 0;
     private bool lastCubeReached = false;
     private float startIntensity;
-    private int startHealth;
-    public Light sphereLight;
+    public HDAdditionalLightData sphereLight;
     private bool wait = false;
 
     // Start is called before the first frame update
@@ -28,9 +29,9 @@ public class LightMovement : MonoBehaviour
             }
         }
 
-        sphereLight = GetComponentInChildren<Light>();
+        sphereLight = GetComponentInChildren<HDAdditionalLightData>();
         startIntensity = sphereLight.intensity;
-        startHealth = Health;
+        sphereLight.intensity = startIntensity * (float)Health / maxHealth;
     }
 
     // Update is called once per frame
@@ -51,6 +52,11 @@ public class LightMovement : MonoBehaviour
 
             if (lastCubeReached || wait)
                 return;
+
+            if(currentCubeTarget > 0) {
+                if (lightPathNodes[currentCubeTarget - 1].waitForPlayer)
+                    return;
+            }
 
             Vector3 heading = lightPathNodes[currentCubeTarget].transform.position - transform.position;
             float distance = heading.magnitude;
@@ -76,7 +82,7 @@ public class LightMovement : MonoBehaviour
     public void TakeDamage(int dmg) {
         if (Health - dmg >= 0) {
             Health -= dmg;
-            sphereLight.intensity = startIntensity * (float)Health / startHealth;
+            sphereLight.intensity = startIntensity * (float)Health / maxHealth;
         }
         else {
             Health = 0;
@@ -85,11 +91,11 @@ public class LightMovement : MonoBehaviour
     }
 
     public void AddHealth(int health) {
-        if (Health + health <= startHealth)
+        if (Health + health <= maxHealth)
             Health += health;
         else
-            Health = startHealth;
+            Health = maxHealth;
 
-        sphereLight.intensity = startIntensity * (float)Health / startHealth;
+        sphereLight.intensity = startIntensity * (float)Health / maxHealth;
     }
 }
