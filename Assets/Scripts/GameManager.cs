@@ -28,10 +28,11 @@ public class GameManager : MonoBehaviour
 
     private void Update() {
         if (startFunction) {
-            currentCheckPoint = checkPoints[currentCheckPointNr];
-            Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
-
             startFunction = false;
+            if (checkPoints.Count > 0) {
+                currentCheckPoint = checkPoints[currentCheckPointNr];
+                Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
+            }
         }
     }
 
