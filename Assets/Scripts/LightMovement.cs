@@ -8,12 +8,11 @@ public class LightMovement : MonoBehaviour
     public GameObject lightMovementCubesParent;
     public List<LightPathNode> lightPathNodes;
     public int Health = 3;
-    public int maxHealth = 3;
+    public List<float> intensityLevels;
     public bool StayOnPlayer = false;
 
     private int currentCubeTarget = 0;
     private bool lastCubeReached = false;
-    private float startIntensity;
     public HDAdditionalLightData sphereLight;
     private bool wait = false;
 
@@ -30,8 +29,7 @@ public class LightMovement : MonoBehaviour
         }
 
         sphereLight = GetComponentInChildren<HDAdditionalLightData>();
-        startIntensity = sphereLight.intensity;
-        sphereLight.intensity = startIntensity * (float)Health / maxHealth;
+        SetIntensity();
     }
 
     // Update is called once per frame
@@ -82,20 +80,27 @@ public class LightMovement : MonoBehaviour
     public void TakeDamage(int dmg) {
         if (Health - dmg >= 0) {
             Health -= dmg;
-            sphereLight.intensity = startIntensity * (float)Health / maxHealth;
         }
         else {
             Health = 0;
-            sphereLight.intensity = 0f;
         }
+        SetIntensity();
     }
 
     public void AddHealth(int health) {
-        if (Health + health <= maxHealth)
+        if (Health + health < intensityLevels.Count)
             Health += health;
         else
-            Health = maxHealth;
+            Health = intensityLevels.Count - 1;
 
-        sphereLight.intensity = startIntensity * (float)Health / maxHealth;
+        SetIntensity();
+    }
+
+    public void SetIntensity() {
+        if (intensityLevels != null && sphereLight != null) {
+            if (intensityLevels.Count > Health && Health >= 0) {
+                sphereLight.intensity = intensityLevels[Health];
+            }
+        }
     }
 }
