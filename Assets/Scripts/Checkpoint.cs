@@ -9,6 +9,7 @@ public class Checkpoint : MonoBehaviour
 
     public GameObject showActivated;
 
+    public static bool CheckpointsActive = false;
     private new bool enabled = false;
 
     private void Start() {
@@ -17,7 +18,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
-            if (!enabled) {
+            if (!enabled && CheckpointsActive) {
                 GameManager.Instance.CheckPointReached(this);
             }
         }

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject Player;
     public Checkpoint currentCheckPoint;
     public List<Checkpoint> checkPoints;
+    public bool startAtFirstCheckPoint = true;
 
     public static int currentCheckPointNr;
 
@@ -22,7 +23,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        
         LightMovementScript = LightObject.GetComponent<LightMovement>();
     }
 
@@ -31,12 +31,15 @@ public class GameManager : MonoBehaviour
             startFunction = false;
             if (checkPoints.Count > 0) {
                 currentCheckPoint = checkPoints[currentCheckPointNr];
-                Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
+                if(startAtFirstCheckPoint)
+                    Player.transform.position = currentCheckPoint.SpawnPoint.transform.position;
+                Checkpoint.CheckpointsActive = true;
             }
         }
     }
 
     public void Respawn() {
+        Checkpoint.CheckpointsActive = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
