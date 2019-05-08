@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.HDPipeline;
 
-public class LightMovement : MonoBehaviour
+public class LightMovement : Attackable
 {
     public GameObject lightMovementCubesParent;
-    public List<LightPathNode> lightPathNodes;
+    private List<LightPathNode> lightPathNodes;
     public int Health = 3;
     public List<float> intensityLevels;
     public bool StayOnPlayer = false;
@@ -19,6 +19,7 @@ public class LightMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        lightPathNodes = new List<LightPathNode>();
         // Add all the children of lightMovementCubesParent to lightMovementCubes list
         for (int i = 0; i < lightMovementCubesParent.transform.childCount; i++) {
             lightPathNodes.Add(lightMovementCubesParent.transform.GetChild(i).GetComponent<LightPathNode>());
@@ -77,7 +78,7 @@ public class LightMovement : MonoBehaviour
         wait = false;
     }
 
-    public void TakeDamage(int dmg) {
+    public override void TakeDamage(int dmg) {
         if (Health - dmg >= 0) {
             Health -= dmg;
         }

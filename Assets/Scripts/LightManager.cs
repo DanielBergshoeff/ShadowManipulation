@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.HDPipeline;
 
 public class LightManager : MonoBehaviour
 {
     public GameObject PlayerSkeleton;
     private List<Transform> PlayerSkeletonParts;
-
-    public GameObject LightObject;
+    
     public LayerMask CubeLayer;
-    public new Light light;
+    public new HDAdditionalLightData light;
     public float lightRange = 10.0f;
 
     public static LightManager Instance;
@@ -29,7 +29,7 @@ public class LightManager : MonoBehaviour
             Instance = this;
         PlayerSkeletonParts = new List<Transform>();
         AddChildrenToList(PlayerSkeletonParts, PlayerSkeleton.transform);
-        light = LightObject.GetComponentInChildren<Light>();
+        light = GameManager.Instance.LightObject.GetComponentInChildren<HDAdditionalLightData>();
     }
 
     // Update is called once per frame
@@ -101,7 +101,7 @@ public class LightManager : MonoBehaviour
                     furthestPointDistance = distancePoint;
                     furthest = hit.point;
                 }
-                ScareMonstersUnderShadow(hit.collider);
+                //ScareMonstersUnderShadow(hit.collider);
                 average += hit.point;
                 count++;
 
