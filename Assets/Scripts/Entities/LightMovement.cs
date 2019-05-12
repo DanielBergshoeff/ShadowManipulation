@@ -16,6 +16,8 @@ public class LightMovement : Attackable
     public HDAdditionalLightData sphereLight;
     private bool wait = false;
 
+    private Vector3 lightPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,21 +33,39 @@ public class LightMovement : Attackable
 
         sphereLight = GetComponentInChildren<HDAdditionalLightData>();
         SetIntensity();
+
+        lightPosition = Vector3.forward * 1.0f + Vector3.up * 1.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (StayOnPlayer) {
-            transform.position = GameManager.Instance.Player.transform.position;
+            //transform.position = GameManager.Instance.Player.transform.position + Vector3.up * 1.0f;
 
-            float f = Input.GetAxis("HorizontalTurn");
-            if (f > 0.5f) {
-                transform.Rotate(0f, -3.0f, 0f);
+            float horizontal = Input.GetAxis("HorizontalTurn");
+            float vertical = Input.GetAxis("VerticalTurn");
+            float maxLength = 5.0f;
+
+            Vector3 heading = Camera.main.transform.position - transform.position;
+            heading = new Vector3(heading.x, 0, heading.z);
+            float magnitude = heading.magnitude;
+
+            Vector3 direction = heading / magnitude;
+            Vector3 right = Quaternion.Euler(0, 90f, 0) * direction;
+
+            horizontal *= maxLength;
+            vertical *= maxLength;
+
+            Vector3 lightPos = direction * vertical - right * horizontal;
+            if (lightPos.magnitude != 0f) {
+                if (lightPos.magnitude < 1.0f) {
+                    lightPos.Normalize();
+                }
+                lightPosition = lightPos + Vector3.up * 1.0f;
             }
-            else if (f < -0.5f) {
-                transform.Rotate(0f, 3.0f, 0f);
-            }
+
+            transform.position = GameManager.Instance.Player.transform.position + lightPosition;
         }
         else {
 

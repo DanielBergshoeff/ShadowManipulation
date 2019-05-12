@@ -410,8 +410,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115112847}
-  m_LocalRotation: {x: 0.27984813, y: 0.36470518, z: -0.11591687, w: 0.8804763}
-  m_LocalPosition: {x: -34.9, y: 6.5599995, z: -25.33}
+  m_LocalRotation: {x: 0.3826834, y: -0.000000072745344, z: 0.000000034394564, w: 0.92387956}
+  m_LocalPosition: {x: -14.9, y: 6.5599995, z: -25.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 905301497}
@@ -1661,8 +1661,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.3826834, y: -0.000000072745344, z: 0.000000034394564, w: 0.92387956}
+  m_LocalPosition: {x: -14.9, y: 21.56, z: -25.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2304,7 +2304,7 @@ MonoBehaviour:
   lightMovementCubesParent: {fileID: 1039422803}
   Health: 3
   intensityLevels: []
-  StayOnPlayer: 0
+  StayOnPlayer: 1
   sphereLight: {fileID: 0}
 --- !u!4 &744958812 stripped
 Transform:
@@ -2672,16 +2672,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1978685652}
     m_Modifications:
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: AttackRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: Size
-      value: 0.7
-      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: LocalTarget
       value: 
@@ -2714,6 +2704,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turter (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AttackRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: Size
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 281326736439748752, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
@@ -2910,7 +2910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: -20, y: 20, z: -20}
+  m_FollowOffset: {x: 0, y: 20, z: -20}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -2936,16 +2936,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1978685652}
     m_Modifications:
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: AttackRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: Size
-      value: 0.7
-      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: LocalTarget
       value: 
@@ -2978,6 +2968,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turter (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AttackRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: Size
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 281326736439748752, guid: a709ad77fd251814a996b3c1b837a0be,
         type: 3}
@@ -3731,7 +3731,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187474688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1745076602}
@@ -5433,6 +5433,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Loop
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 450700109587130363, guid: 7737647c22c1fc64a88d5cd030c352ce,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
