@@ -18,6 +18,10 @@ public class LightMovement : Attackable
 
     private Vector3 lightPosition;
 
+    public float Height = 1.0f;
+    public float minHeight = 1.0f;
+    public float maxHeight = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +38,7 @@ public class LightMovement : Attackable
         sphereLight = GetComponentInChildren<HDAdditionalLightData>();
         SetIntensity();
 
-        lightPosition = Vector3.forward * 1.0f + Vector3.up * 1.0f;
+        lightPosition = Vector3.forward * 1.0f + Vector3.up * Height;
     }
 
     // Update is called once per frame
@@ -46,6 +50,20 @@ public class LightMovement : Attackable
             float horizontal = Input.GetAxis("HorizontalTurn");
             float vertical = Input.GetAxis("VerticalTurn");
             float maxLength = 5.0f;
+
+            bool rb = Input.GetButton("RB");
+            bool rt = false;
+            float rtbtn = Input.GetAxis("RT");
+            if(rtbtn > 0.2f) {
+                rt = true;
+            }
+
+            if (rb && !rt && Height > minHeight) {
+                Height -= Time.deltaTime;
+            }
+            else if(rt && !rb && Height < maxHeight){
+                Height += Time.deltaTime;
+            }
 
             Vector3 heading = Camera.main.transform.position - transform.position;
             heading = new Vector3(heading.x, 0, heading.z);
@@ -62,7 +80,7 @@ public class LightMovement : Attackable
                 if (lightPos.magnitude < 1.0f) {
                     lightPos.Normalize();
                 }
-                lightPosition = lightPos + Vector3.up * 1.0f;
+                lightPosition = lightPos + Vector3.up * Height;
             }
 
             transform.position = GameManager.Instance.Player.transform.position + lightPosition;
