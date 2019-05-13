@@ -21,6 +21,7 @@ public class LightMovement : Attackable
     public float Height = 1.0f;
     public float minHeight = 1.0f;
     public float maxHeight = 5.0f;
+    public float verticalSpeed = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -59,10 +60,10 @@ public class LightMovement : Attackable
             }
 
             if (rb && !rt && Height > minHeight) {
-                Height -= Time.deltaTime;
+                Height -= Time.deltaTime * verticalSpeed;
             }
             else if(rt && !rb && Height < maxHeight){
-                Height += Time.deltaTime;
+                Height += Time.deltaTime * verticalSpeed;
             }
 
             Vector3 heading = Camera.main.transform.position - transform.position;
