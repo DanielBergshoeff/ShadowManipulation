@@ -17,11 +17,13 @@ public class LightMovement : Attackable
     private bool wait = false;
 
     private Vector3 lightPosition;
+    private Vector3 targetLightPosition;
 
     public float Height = 1.0f;
     public float minHeight = 1.0f;
     public float maxHeight = 5.0f;
-    public float verticalSpeed = 1.0f;
+    public float verticalSpeed = 3.0f;
+    public float horizontalSpeed = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +41,7 @@ public class LightMovement : Attackable
         sphereLight = GetComponentInChildren<HDAdditionalLightData>();
         SetIntensity();
 
-        lightPosition = Vector3.forward * 1.0f + Vector3.up * Height;
+        lightPosition = Vector3.forward * 1.0f;
     }
 
     // Update is called once per frame
@@ -81,10 +83,22 @@ public class LightMovement : Attackable
                 if (lightPos.magnitude < 1.0f) {
                     lightPos.Normalize();
                 }
-                lightPosition = lightPos + Vector3.up * Height;
+                targetLightPosition = lightPos;
+            }
+            if (targetLightPosition != Vector3.zero) {
+                Vector3 headingLight = targetLightPosition - lightPosition;
+                headingLight = new Vector3(headingLight.x, 0f, headingLight.z);
+                Vector3 directionLight = headingLight / heading.magnitude;
+
+                lightPosition += directionLight * horizontalSpeed * Time.deltaTime;
+
+                if(lightPosition.magnitude < 1.0f) {
+                    lightPosition.Normalize();
+                }
             }
 
-            transform.position = GameManager.Instance.Player.transform.position + lightPosition;
+            transform.position = GameManager.Instance.Player.transform.position + lightPosition + Vector3.up * Height;
+
         }
         else {
 

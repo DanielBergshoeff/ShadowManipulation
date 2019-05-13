@@ -410,8 +410,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115112847}
-  m_LocalRotation: {x: 0.3826834, y: -0.000000072745344, z: 0.000000034394564, w: 0.92387956}
-  m_LocalPosition: {x: -14.9, y: 6.5599995, z: -25.33}
+  m_LocalRotation: {x: 0.2798481, y: 0.36470523, z: -0.115916885, w: 0.8804763}
+  m_LocalPosition: {x: -24.9, y: -3.4400005, z: -15.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 905301497}
@@ -1661,8 +1661,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.3826834, y: -0.000000072745344, z: 0.000000034394564, w: 0.92387956}
-  m_LocalPosition: {x: -14.9, y: 21.56, z: -25.33}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2303,9 +2303,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightMovementCubesParent: {fileID: 1039422803}
   Health: 3
-  intensityLevels: []
+  intensityLevels:
+  - 0
+  - 1000
+  - 2000
+  - 3000
   StayOnPlayer: 1
   sphereLight: {fileID: 0}
+  Height: 1
+  minHeight: 1
+  maxHeight: 5
+  verticalSpeed: 1
+  horizontalSpeed: 5
 --- !u!4 &744958812 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8219730119528820829, guid: e1babbfbd9aeb504b8ea7eb7de94f133,
@@ -2910,7 +2919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 20, z: -20}
+  m_FollowOffset: {x: -10, y: 10, z: -10}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
