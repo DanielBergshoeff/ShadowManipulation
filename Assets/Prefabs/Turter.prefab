@@ -465,8 +465,8 @@ GameObject:
   m_Component:
   - component: {fileID: 281326737709183096}
   - component: {fileID: 281326737709183099}
-  - component: {fileID: 281326737709183098}
   - component: {fileID: 281326737709183093}
+  - component: {fileID: 7569110603705229061}
   m_Layer: 0
   m_Name: Turter
   m_TagString: Monster
@@ -510,25 +510,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &281326737709183098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 281326737709183097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da51b881c2187914f845954a9ab6b241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LocalTarget: {fileID: 0}
-  Size: 1
-  Speed: 1
-  ViewRange: 50
-  AttackRange: 1
-  RunTime: 5
-  oldSystem: 0
 --- !u!195 &281326737709183093
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -551,6 +532,24 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7569110603705229061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281326737709183097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d265496fc6f883a48ab3eabe2dbcfd39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: 0.7
+  ViewRange: 20
+  AttackRange: 3
+  Damage: 1
+  AttackTime: 0.5
+  Speed: 3
 --- !u!1 &281326737839174537
 GameObject:
   m_ObjectHideFlags: 0
