@@ -550,6 +550,12 @@ MonoBehaviour:
   Damage: 1
   AttackTime: 0.5
   Speed: 3
+  AngerLevel: 0
+  AngerStage: 0
+  AngerPerStage:
+  - 0
+  - 10
+  - 20
 --- !u!1 &281326737839174537
 GameObject:
   m_ObjectHideFlags: 0
