@@ -1704,8 +1704,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.2798481, y: 0.36470523, z: -0.115916885, w: 0.8804763}
-  m_LocalPosition: {x: -24.9, y: 11.559999, z: -15.33}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4599,29 +4599,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5adc878594d0f2249979289af2b123c6, type: 2}
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: stageInformation.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: stageInformation.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 88454fc72c18379418e839a6ed8b70db,
-        type: 2}
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: stageInformation.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3781bc63e882bc646aedf60a2e449d11,
-        type: 2}
-    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
-        type: 3}
-      propertyPath: stageInformation.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 7995be40e8929744293d41984e813197,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
 --- !u!4 &1437875857 stripped
