@@ -7,12 +7,9 @@ using UnityEngine.Experimental.Rendering.HDPipeline;
 
 public class BehaviourTree : MonoBehaviour
 {
-    public float Size = 3.0f;
-    public float ViewRange = 20.0f;
-    public float AttackRange = 1.0f;
-    public int Damage = 1;
-    public float AttackTime = 0.5f;
-    public float Speed = 3.0f;
+    public float AngerLevel = 0f;
+    public int AngerStage = 0;
+    public StageInformation[] stageInformation;
 
     private float attackCharge = 0.0f;
 
@@ -50,6 +47,8 @@ public class BehaviourTree : MonoBehaviour
 
 
         myNavMeshAgent = GetComponent<NavMeshAgent>();
+
+        EnemyManager.AddEnemy(this);
     }
 
     // Update is called once per frame
@@ -61,7 +60,7 @@ public class BehaviourTree : MonoBehaviour
     NodeStates SetPlayerTarget() {
         float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
         float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
-        if (distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange && distPlayer <= ViewRange) {
+        if (distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange && distPlayer <= stageInformation[AngerStage].ViewRange) {
             Target = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
             return NodeStates.SUCCESS;
         }
@@ -71,7 +70,7 @@ public class BehaviourTree : MonoBehaviour
 
     NodeStates SetLightTarget() {
         float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
-        if(distLight <= ViewRange) {
+        if(distLight <= stageInformation[AngerStage].ViewRange) {
             Target = GameManager.Instance.LightMovementScript;
             return NodeStates.SUCCESS;
         }
@@ -80,10 +79,10 @@ public class BehaviourTree : MonoBehaviour
     }
 
     NodeStates AttackTarget() {
-        if ((Target.transform.position - transform.position).magnitude < AttackRange) {
+        if ((Target.transform.position - transform.position).magnitude < stageInformation[AngerStage].AttackRange) {
             attackCharge += Time.deltaTime;
-            if (attackCharge >= AttackTime) {
-                Target.TakeDamage(Damage);
+            if (attackCharge >= stageInformation[AngerStage].AttackTime) {
+                Target.TakeDamage(stageInformation[AngerStage].Damage);
                 Destroy(gameObject);
                 return NodeStates.SUCCESS;
             }
@@ -97,18 +96,21 @@ public class BehaviourTree : MonoBehaviour
 
     NodeStates SneakToTarget() {
         float distShadow = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
-        float speedCalculation = Size * distShadow - LightManager.Instance.SizeShadow;
-        speedCalculation = Mathf.Clamp(speedCalculation / 50, -Speed, Speed);
+        float speedCalculation = stageInformation[AngerStage].Size * distShadow - LightManager.Instance.SizeShadow;
+        speedCalculation = Mathf.Clamp(speedCalculation / 50, -stageInformation[AngerStage].Speed, stageInformation[AngerStage].Speed);
         bool positive = speedCalculation >= 0;
-        speedCalculation = Mathf.Clamp(Mathf.Abs(speedCalculation), Speed / 2, Speed);
+        speedCalculation = Mathf.Clamp(Mathf.Abs(speedCalculation), stageInformation[AngerStage].Speed / 2, stageInformation[AngerStage].Speed);
 
         if (positive) {
             myNavMeshAgent.SetDestination(Target.transform.position);
         }
         else {
+            var targetHeading = LightManager.Instance.AveragePos - transform.position;
+            var targetDirection = targetHeading / (targetHeading.magnitude);
+            /*
             var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
             var targetDirection = targetHeading / (targetHeading.magnitude);
-
+            */
             myNavMeshAgent.SetDestination(transform.position - targetDirection);
         }
 
@@ -120,5 +122,15 @@ public class BehaviourTree : MonoBehaviour
 
     NodeStates MoveToTarget() {
         throw new System.NotImplementedException();
+    }
+
+    public void IncreaseAnger(float amt) {
+        AngerLevel += amt;
+        if (stageInformation.Length - 1 > AngerStage) {
+            if (AngerLevel > stageInformation[AngerStage+1].AngerToStage) {
+                AngerStage++;
+                AngerLevel = 0f;
+            }
+        }
     }
 }

@@ -544,12 +544,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d265496fc6f883a48ab3eabe2dbcfd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: 0.7
-  ViewRange: 20
-  AttackRange: 3
-  Damage: 1
-  AttackTime: 0.5
-  Speed: 3
+  AngerLevel: 0
+  AngerStage: 0
+  stageInformation:
+  - {fileID: 11400000, guid: 88454fc72c18379418e839a6ed8b70db, type: 2}
+  - {fileID: 11400000, guid: 3781bc63e882bc646aedf60a2e449d11, type: 2}
+  - {fileID: 11400000, guid: 7995be40e8929744293d41984e813197, type: 2}
 --- !u!1 &281326737839174537
 GameObject:
   m_ObjectHideFlags: 0
