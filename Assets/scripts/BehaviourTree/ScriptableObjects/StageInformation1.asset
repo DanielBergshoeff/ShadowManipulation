@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429c285c13cc4fe43b39dd3cfeb42f0f, type: 3}
   m_Name: StageInformation1
   m_EditorClassIdentifier: 
-  AngerToStage: 30
-  Size: 5
+  AngerToStage: 10
+  Size: 3
   ViewRange: 30
   AttackRange: 2
   Damage: 2

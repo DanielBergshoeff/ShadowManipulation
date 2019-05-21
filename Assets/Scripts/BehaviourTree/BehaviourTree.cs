@@ -105,9 +105,12 @@ public class BehaviourTree : MonoBehaviour
             myNavMeshAgent.SetDestination(Target.transform.position);
         }
         else {
+            var targetHeading = LightManager.Instance.AveragePos - transform.position;
+            var targetDirection = targetHeading / (targetHeading.magnitude);
+            /*
             var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
             var targetDirection = targetHeading / (targetHeading.magnitude);
-
+            */
             myNavMeshAgent.SetDestination(transform.position - targetDirection);
         }
 
