@@ -5,8 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Experimental.Rendering.HDPipeline;
 
 
-public class BehaviourTree : MonoBehaviour
-{
+public class BehaviourTree : MonoBehaviour {
     public float AngerLevel = 0f;
     public int AngerStage = 0;
     public StageInformation[] stageInformation;
@@ -16,34 +15,36 @@ public class BehaviourTree : MonoBehaviour
     private Attackable Target;
 
     private Selector RootSelector;
-    private Inverter SetTargetSelector;
 
     private ActionNode SetPlayerTargetAction;
     private ActionNode SetLightTargetAction;
     private ActionNode AttackTargetAction;
-    private ActionNode SneakToTargetAction;
+    private ActionNode CheckIfScaredCondition;
     private ActionNode MoveToTargetAction;
-
-    private Selector AttackSelector;
-    private Selector MoveTowardsSelector;
-
-    private NavMeshAgent myNavMeshAgent;
+    private ActionNode CircleAroundTargetAction;
+    private ActionNode EscapeAction;
     
+    private NavMeshAgent myNavMeshAgent;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         SetPlayerTargetAction = new ActionNode(SetPlayerTarget);
         SetLightTargetAction = new ActionNode(SetLightTarget);
         AttackTargetAction = new ActionNode(AttackTarget);
-        SneakToTargetAction = new ActionNode(SneakToTarget);
+        CheckIfScaredCondition = new ActionNode(CheckIfScared);
         MoveToTargetAction = new ActionNode(MoveToTarget);
+        EscapeAction = new ActionNode(Escape);
+        CircleAroundTargetAction = new ActionNode(CircleAroundTarget);
 
-        Selector setTargetSelectorNode = new Selector(new List<Node>() { SetPlayerTargetAction, SetLightTargetAction });
-        SetTargetSelector = new Inverter(setTargetSelectorNode);
-        AttackSelector = new Selector(new List<Node>() { AttackTargetAction });
-        MoveTowardsSelector = new Selector(new List<Node>() { SneakToTargetAction, MoveToTargetAction });
+        Selector setTargetSelectorNode = new Selector(new List<Node>() { SetPlayerTargetAction, SetLightTargetAction }); //If the player is not within range of the light, set player as target. Otherwise, set the light as target.
+        Selector AttackSelector = new Selector(new List<Node>() { AttackTargetAction }); //If this unit is attacking, choose the appropriate attack
+        Selector MoveTowardsSelector = new Selector(new List<Node>() {CircleAroundTargetAction, MoveToTargetAction }); //If the target is close, circle around the target, if the target is far, move in the direction of the target
+        Selector AttackOrMoveSelector = new Selector(new List<Node>() { AttackSelector, MoveTowardsSelector }); //If the choice is to attack, choose between attacking (if close) or moving towards the target
+        Sequence ScaredSequence = new Sequence(new List<Node>() { CheckIfScaredCondition, EscapeAction}); //If the choice is to retreat, do the escape action
+        Selector AttackOrRetreat = new Selector(new List<Node>() { ScaredSequence, AttackOrMoveSelector }); //If a target has been set, choose whether to attack or retreat based on the size of the shadow
+        Inverter SetTargetSelector = new Inverter(setTargetSelectorNode); //Set target, return false if target is set
 
-        RootSelector = new Selector(new List<Node>() { SetTargetSelector, AttackSelector, MoveTowardsSelector });
+        RootSelector = new Selector(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
 
 
         myNavMeshAgent = GetComponent<NavMeshAgent>();
@@ -52,8 +53,7 @@ public class BehaviourTree : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         RootSelector.Evaluate();
     }
 
@@ -70,7 +70,7 @@ public class BehaviourTree : MonoBehaviour
 
     NodeStates SetLightTarget() {
         float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
-        if(distLight <= stageInformation[AngerStage].ViewRange) {
+        if (distLight <= stageInformation[AngerStage].ViewRange) {
             Target = GameManager.Instance.LightMovementScript;
             return NodeStates.SUCCESS;
         }
@@ -94,34 +94,44 @@ public class BehaviourTree : MonoBehaviour
         return NodeStates.FAILURE;
     }
 
-    NodeStates SneakToTarget() {
+    NodeStates CheckIfScared() {
         float distShadow = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
         float speedCalculation = stageInformation[AngerStage].Size * distShadow - LightManager.Instance.SizeShadow;
         speedCalculation = Mathf.Clamp(speedCalculation / 50, -stageInformation[AngerStage].Speed, stageInformation[AngerStage].Speed);
         bool positive = speedCalculation >= 0;
-        speedCalculation = Mathf.Clamp(Mathf.Abs(speedCalculation), stageInformation[AngerStage].Speed / 2, stageInformation[AngerStage].Speed);
 
-        if (positive) {
-            myNavMeshAgent.SetDestination(Target.transform.position);
-        }
-        else {
-            var targetHeading = LightManager.Instance.AveragePos - transform.position;
-            var targetDirection = targetHeading / (targetHeading.magnitude);
-            /*
-            var targetHeading = GameManager.Instance.Player.transform.position - transform.position;
-            var targetDirection = targetHeading / (targetHeading.magnitude);
-            */
-            myNavMeshAgent.SetDestination(transform.position - targetDirection);
-        }
+        if (positive)
+            return NodeStates.SUCCESS;
 
-
-        myNavMeshAgent.speed = speedCalculation;
-
-        return NodeStates.SUCCESS;
+        return NodeStates.FAILURE;
     }
 
     NodeStates MoveToTarget() {
-        throw new System.NotImplementedException();
+        myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+        myNavMeshAgent.SetDestination(Target.transform.position);
+        return NodeStates.RUNNING;
+    }
+
+    NodeStates Escape() {
+        var targetHeading = LightManager.Instance.AveragePos - transform.position;
+        var targetDirection = targetHeading / (targetHeading.magnitude);
+        myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+
+        myNavMeshAgent.SetDestination(transform.position - targetDirection);
+        return NodeStates.RUNNING;
+    }
+
+    NodeStates CircleAroundTarget() {
+        Vector3 start = Target.transform.position - transform.position;
+        if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt) {
+            Vector3 target = Quaternion.AngleAxis(1f, Vector3.up) * start.normalized;
+            Vector3 pos = Target.transform.position + target * (stageInformation[AngerStage].DistanceToCircleAt - 1f);
+            myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+            myNavMeshAgent.SetDestination(pos);
+            return NodeStates.RUNNING;
+        }
+
+        return NodeStates.FAILURE;
     }
 
     public void IncreaseAnger(float amt) {
