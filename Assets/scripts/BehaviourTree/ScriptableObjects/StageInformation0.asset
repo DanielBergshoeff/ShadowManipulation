@@ -15,8 +15,8 @@ MonoBehaviour:
   AngerToStage: 0
   Size: 1
   ViewRange: 30
-  AttackRange: 1
+  AttackRange: 3
   Damage: 1
-  AttackTime: 0.5
+  AttackTime: 0
   Speed: 3
-  DistanceToCircleAt: 10
+  DistanceToCircleAt: 5

@@ -30,8 +30,8 @@ public class VirtualCameraManager : MonoBehaviour
     }
 
     public void AddCameraToList(GameObject cam) {
-        virtualCams.Add(cam);
         if(cam != primaryVirtualCam) {
+            virtualCams.Add(cam);
             cam.SetActive(false);
         }
     }

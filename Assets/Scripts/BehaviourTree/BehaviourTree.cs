@@ -14,7 +14,7 @@ public class BehaviourTree : MonoBehaviour {
 
     private Attackable Target;
 
-    private Selector RootSelector;
+    private Sequence RootSequence;
 
     private ActionNode SetPlayerTargetAction;
     private ActionNode SetLightTargetAction;
@@ -36,15 +36,15 @@ public class BehaviourTree : MonoBehaviour {
         EscapeAction = new ActionNode(Escape);
         CircleAroundTargetAction = new ActionNode(CircleAroundTarget);
 
-        Selector setTargetSelectorNode = new Selector(new List<Node>() { SetPlayerTargetAction, SetLightTargetAction }); //If the player is not within range of the light, set player as target. Otherwise, set the light as target.
         Selector AttackSelector = new Selector(new List<Node>() { AttackTargetAction }); //If this unit is attacking, choose the appropriate attack
         Selector MoveTowardsSelector = new Selector(new List<Node>() {CircleAroundTargetAction, MoveToTargetAction }); //If the target is close, circle around the target, if the target is far, move in the direction of the target
         Selector AttackOrMoveSelector = new Selector(new List<Node>() { AttackSelector, MoveTowardsSelector }); //If the choice is to attack, choose between attacking (if close) or moving towards the target
         Sequence ScaredSequence = new Sequence(new List<Node>() { CheckIfScaredCondition, EscapeAction}); //If the choice is to retreat, do the escape action
         Selector AttackOrRetreat = new Selector(new List<Node>() { ScaredSequence, AttackOrMoveSelector }); //If a target has been set, choose whether to attack or retreat based on the size of the shadow
-        Inverter SetTargetSelector = new Inverter(setTargetSelectorNode); //Set target, return false if target is set
+        Selector SetTargetSelector = new Selector(new List<Node>() { SetPlayerTargetAction, SetLightTargetAction }); //If the player is not within range of the light, set player as target. Otherwise, set the light as target.
 
-        RootSelector = new Selector(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
+
+        RootSequence = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
 
 
         myNavMeshAgent = GetComponent<NavMeshAgent>();
@@ -54,7 +54,7 @@ public class BehaviourTree : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        RootSelector.Evaluate();
+        RootSequence.Evaluate();
     }
 
     NodeStates SetPlayerTarget() {
@@ -79,7 +79,7 @@ public class BehaviourTree : MonoBehaviour {
     }
 
     NodeStates AttackTarget() {
-        if ((Target.transform.position - transform.position).magnitude < stageInformation[AngerStage].AttackRange) {
+        if ((Target.transform.position - transform.position).sqrMagnitude < stageInformation[AngerStage].AttackRange * stageInformation[AngerStage].AttackRange) {
             attackCharge += Time.deltaTime;
             if (attackCharge >= stageInformation[AngerStage].AttackTime) {
                 Target.TakeDamage(stageInformation[AngerStage].Damage);
@@ -101,9 +101,9 @@ public class BehaviourTree : MonoBehaviour {
         bool positive = speedCalculation >= 0;
 
         if (positive)
-            return NodeStates.SUCCESS;
+            return NodeStates.FAILURE;
 
-        return NodeStates.FAILURE;
+        return NodeStates.SUCCESS;
     }
 
     NodeStates MoveToTarget() {
@@ -123,7 +123,7 @@ public class BehaviourTree : MonoBehaviour {
 
     NodeStates CircleAroundTarget() {
         Vector3 start = Target.transform.position - transform.position;
-        if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt) {
+        if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt * stageInformation[AngerStage].DistanceToCircleAt) {
             Vector3 target = Quaternion.AngleAxis(1f, Vector3.up) * start.normalized;
             Vector3 pos = Target.transform.position + target * (stageInformation[AngerStage].DistanceToCircleAt - 1f);
             myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
