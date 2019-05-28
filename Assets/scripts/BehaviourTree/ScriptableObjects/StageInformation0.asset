@@ -19,4 +19,4 @@ MonoBehaviour:
   Damage: 1
   AttackTime: 0
   Speed: 3
-  DistanceToCircleAt: 5
+  DistanceToCircleAt: 10

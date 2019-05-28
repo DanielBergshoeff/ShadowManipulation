@@ -109,6 +109,7 @@ public class BehaviourTree : MonoBehaviour {
     NodeStates MoveToTarget() {
         myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
         myNavMeshAgent.SetDestination(Target.transform.position);
+        Debug.Log("Run to target!");
         return NodeStates.RUNNING;
     }
 
@@ -116,16 +117,23 @@ public class BehaviourTree : MonoBehaviour {
         var targetHeading = LightManager.Instance.AveragePos - transform.position;
         var targetDirection = targetHeading / (targetHeading.magnitude);
         myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-
         myNavMeshAgent.SetDestination(transform.position - targetDirection);
+        Debug.Log("Running!");
         return NodeStates.RUNNING;
     }
 
     NodeStates CircleAroundTarget() {
-        Vector3 start = Target.transform.position - transform.position;
+        Vector3 heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
+        Vector3 start = heightRemoved - transform.position;
         if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt * stageInformation[AngerStage].DistanceToCircleAt) {
-            Vector3 target = Quaternion.AngleAxis(1f, Vector3.up) * start.normalized;
-            Vector3 pos = Target.transform.position + target * (stageInformation[AngerStage].DistanceToCircleAt - 1f);
+            Debug.Log(start.normalized);
+            Vector3 target = Quaternion.AngleAxis(10f, Vector3.up) * start.normalized;
+            Debug.Log(target.normalized);
+            Vector3 pos = Target.transform.position - target * (stageInformation[AngerStage].DistanceToCircleAt - 1f);
+            RaycastHit hit;
+            if(Physics.Raycast(Target.transform.position, target, out hit, stageInformation[AngerStage].DistanceToCircleAt - 1f)) {
+                pos = hit.point;
+            }
             myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
             myNavMeshAgent.SetDestination(pos);
             return NodeStates.RUNNING;
