@@ -11,6 +11,10 @@ public class BehaviourTree : MonoBehaviour {
     public StageInformation[] stageInformation;
 
     private float attackCharge = 0.0f;
+    private float walkAroundTimer = 0.0f;
+    private float attackTime = 0.0f;
+
+    public LayerMask layerObstructions;
 
     private Attackable Target;
 
@@ -46,7 +50,7 @@ public class BehaviourTree : MonoBehaviour {
 
         RootSequence = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
 
-
+        attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
         myNavMeshAgent = GetComponent<NavMeshAgent>();
 
         EnemyManager.AddEnemy(this);
@@ -79,9 +83,13 @@ public class BehaviourTree : MonoBehaviour {
     }
 
     NodeStates AttackTarget() {
-        if ((Target.transform.position - transform.position).sqrMagnitude < stageInformation[AngerStage].AttackRange * stageInformation[AngerStage].AttackRange) {
+        Vector3 heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
+        if ((heightRemoved - transform.position).sqrMagnitude < stageInformation[AngerStage].AttackRange * stageInformation[AngerStage].AttackRange) {
             attackCharge += Time.deltaTime;
-            if (attackCharge >= stageInformation[AngerStage].AttackTime) {
+
+            if (attackCharge >= stageInformation[AngerStage].AttackTime) {//If the attack has been charged up, apply damage and reset timers
+                walkAroundTimer = 0.0f;
+                attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
                 Target.TakeDamage(stageInformation[AngerStage].Damage);
                 Destroy(gameObject);
                 return NodeStates.SUCCESS;
@@ -109,7 +117,6 @@ public class BehaviourTree : MonoBehaviour {
     NodeStates MoveToTarget() {
         myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
         myNavMeshAgent.SetDestination(Target.transform.position);
-        Debug.Log("Run to target!");
         return NodeStates.RUNNING;
     }
 
@@ -118,24 +125,32 @@ public class BehaviourTree : MonoBehaviour {
         var targetDirection = targetHeading / (targetHeading.magnitude);
         myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
         myNavMeshAgent.SetDestination(transform.position - targetDirection);
-        Debug.Log("Running!");
         return NodeStates.RUNNING;
     }
 
     NodeStates CircleAroundTarget() {
         Vector3 heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
         Vector3 start = heightRemoved - transform.position;
-        if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt * stageInformation[AngerStage].DistanceToCircleAt) {
-            Debug.Log(start.normalized);
-            Vector3 target = Quaternion.AngleAxis(10f, Vector3.up) * start.normalized;
-            Debug.Log(target.normalized);
-            Vector3 pos = Target.transform.position - target * (stageInformation[AngerStage].DistanceToCircleAt - 1f);
-            RaycastHit hit;
-            if(Physics.Raycast(Target.transform.position, target, out hit, stageInformation[AngerStage].DistanceToCircleAt - 1f)) {
-                pos = hit.point;
+
+        if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt * stageInformation[AngerStage].DistanceToCircleAt) { //If the Target is close enough to start circling around it
+
+            if(walkAroundTimer >= attackTime) { //If this entity has been walking around for longer than the attackTime variable
+                return NodeStates.FAILURE;
             }
-            myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-            myNavMeshAgent.SetDestination(pos);
+            else {
+                walkAroundTimer += Time.deltaTime;
+                Vector3 target = (Quaternion.AngleAxis(10f, Vector3.up) * start.normalized).normalized;
+
+                Vector3 pos = heightRemoved - target * (stageInformation[AngerStage].DistanceToCircleAt - 1f);
+
+                RaycastHit hit;
+                if (Physics.Raycast(heightRemoved, target, out hit, stageInformation[AngerStage].DistanceToCircleAt - 1f, layerObstructions)) {
+                    pos = hit.point;
+                }
+                myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+                myNavMeshAgent.SetDestination(pos);
+            }
+
             return NodeStates.RUNNING;
         }
 

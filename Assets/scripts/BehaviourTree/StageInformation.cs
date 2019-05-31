@@ -13,4 +13,6 @@ public class StageInformation : ScriptableObject
     public float AttackTime;
     public float Speed;
     public float DistanceToCircleAt;
+    public float MinTimeTillAttack;
+    public float MaxTimeTillAttack;
 }

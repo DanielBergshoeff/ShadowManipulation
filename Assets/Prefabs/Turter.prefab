@@ -550,6 +550,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88454fc72c18379418e839a6ed8b70db, type: 2}
   - {fileID: 11400000, guid: 3781bc63e882bc646aedf60a2e449d11, type: 2}
   - {fileID: 11400000, guid: 7995be40e8929744293d41984e813197, type: 2}
+  layerObstructions:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &281326737839174537
 GameObject:
   m_ObjectHideFlags: 0
