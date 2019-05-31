@@ -13,6 +13,7 @@ public class BehaviourTree : MonoBehaviour {
     private float attackCharge = 0.0f;
     private float walkAroundTimer = 0.0f;
     private float attackTime = 0.0f;
+    private float scaredTimer;
 
     public LayerMask layerObstructions;
 
@@ -108,10 +109,12 @@ public class BehaviourTree : MonoBehaviour {
         speedCalculation = Mathf.Clamp(speedCalculation / 50, -stageInformation[AngerStage].Speed, stageInformation[AngerStage].Speed);
         bool positive = speedCalculation >= 0;
 
-        if (positive)
+        if (positive) {
+            scaredTimer = 0.0f;
             return NodeStates.FAILURE;
+        }
 
-        return NodeStates.SUCCESS;
+            return NodeStates.SUCCESS;
     }
 
     NodeStates MoveToTarget() {
@@ -121,10 +124,16 @@ public class BehaviourTree : MonoBehaviour {
     }
 
     NodeStates Escape() {
-        var targetHeading = LightManager.Instance.AveragePos - transform.position;
-        var targetDirection = targetHeading / (targetHeading.magnitude);
-        myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-        myNavMeshAgent.SetDestination(transform.position - targetDirection);
+        if (scaredTimer <= stageInformation[AngerStage].ScaredTime) { //Play scared animation for ScaredTime amt of seconds
+            myNavMeshAgent.speed = 0f;
+            scaredTimer += Time.deltaTime;
+        }
+        else { //After being scared start running away
+            var targetHeading = LightManager.Instance.AveragePos - transform.position;
+            var targetDirection = targetHeading / (targetHeading.magnitude);
+            myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+            myNavMeshAgent.SetDestination(transform.position - targetDirection);
+        }
         return NodeStates.RUNNING;
     }
 

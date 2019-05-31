@@ -22,3 +22,4 @@ MonoBehaviour:
   DistanceToCircleAt: 8
   MinTimeTillAttack: 5
   MaxTimeTillAttack: 10
+  ScaredTime: 3
