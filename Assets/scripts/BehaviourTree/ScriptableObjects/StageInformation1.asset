@@ -18,8 +18,4 @@ MonoBehaviour:
   AttackRange: 2
   Damage: 2
   AttackTime: 1
-  Speed: 6
-  DistanceToCircleAt: 0
-  MinTimeTillAttack: 0
-  MaxTimeTillAttack: 0
-  ScaredTime: 0
+  Speed: 3
