@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StageInformation0
   m_EditorClassIdentifier: 
   AngerToStage: 0
-  Size: 1.5
+  Size: 1
   ViewRange: 30
   AttackRange: 1
   Damage: 1
