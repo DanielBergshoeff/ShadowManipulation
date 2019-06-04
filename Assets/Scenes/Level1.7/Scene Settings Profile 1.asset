@@ -9,17 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429c285c13cc4fe43b39dd3cfeb42f0f, type: 3}
-  m_Name: StageInformation2
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: Scene Settings Profile 1
   m_EditorClassIdentifier: 
-  AngerToStage: 45
-  Size: 10
-  ViewRange: 30
-  AttackRange: 5
-  Damage: 3
-  AttackTime: 1
-  Speed: 8
-  DistanceToCircleAt: 0
-  MinTimeTillAttack: 0
-  MaxTimeTillAttack: 0
-  ScaredTime: 0
+  components: []
