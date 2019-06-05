@@ -16,4 +16,6 @@ public class StageInformation : ScriptableObject
     public float MinTimeTillAttack;
     public float MaxTimeTillAttack;
     public float ScaredTime;
+    public float MinJumpTime;
+    public float MaxJumpTime;
 }

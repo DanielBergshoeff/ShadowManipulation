@@ -9,17 +9,22 @@ public class BehaviourTree : MonoBehaviour {
     public float AngerLevel = 0f;
     public int AngerStage = 0;
     public StageInformation[] stageInformation;
+    public float animationTime = 3.0f;
 
     private float attackCharge = 0.0f;
     private float walkAroundTimer = 0.0f;
     private float attackTime = 0.0f;
     private float scaredTimer;
+    private float jumpTimer = 0f;
+    private float animationTimer = 3.0f;
 
     public LayerMask layerObstructions;
 
     private Attackable Target;
 
-    private Sequence RootSequence;
+    private Node Root;
+    private Sequence RootSequenceStageOne;
+    private Sequence RootSequenceStageTwo;
 
     private ActionNode SetPlayerTargetAction;
     private ActionNode SetLightTargetAction;
@@ -28,6 +33,7 @@ public class BehaviourTree : MonoBehaviour {
     private ActionNode MoveToTargetAction;
     private ActionNode CircleAroundTargetAction;
     private ActionNode EscapeAction;
+    private ActionNode JumpAction;
     
     private NavMeshAgent myNavMeshAgent;
 
@@ -40,7 +46,9 @@ public class BehaviourTree : MonoBehaviour {
         MoveToTargetAction = new ActionNode(MoveToTarget);
         EscapeAction = new ActionNode(Escape);
         CircleAroundTargetAction = new ActionNode(CircleAroundTarget);
-
+        JumpAction = new ActionNode(Jump);
+        
+        //Stage 1
         Selector AttackSelector = new Selector(new List<Node>() { AttackTargetAction }); //If this unit is attacking, choose the appropriate attack
         Selector MoveTowardsSelector = new Selector(new List<Node>() {CircleAroundTargetAction, MoveToTargetAction }); //If the target is close, circle around the target, if the target is far, move in the direction of the target
         Selector AttackOrMoveSelector = new Selector(new List<Node>() { AttackSelector, MoveTowardsSelector }); //If the choice is to attack, choose between attacking (if close) or moving towards the target
@@ -48,18 +56,29 @@ public class BehaviourTree : MonoBehaviour {
         Selector AttackOrRetreat = new Selector(new List<Node>() { ScaredSequence, AttackOrMoveSelector }); //If a target has been set, choose whether to attack or retreat based on the size of the shadow
         Selector SetTargetSelector = new Selector(new List<Node>() { SetPlayerTargetAction, SetLightTargetAction }); //If the player is not within range of the light, set player as target. Otherwise, set the light as target.
 
+        //Stage 2
+        Selector MoveTowardsSelectorTwo = new Selector(new List<Node>() { JumpAction, CircleAroundTargetAction, MoveToTargetAction}); //If the target is close, circle around the target or jump towards the target. If the target is far, move in the direction of the target
+        Selector AttackOrMoveSelectorTwo = new Selector(new List<Node>() { AttackSelector, MoveTowardsSelectorTwo}); //If the choice is to attack, choose between attacking (if close) or moving towards the target
+        Selector AttackOrRetreatTwo = new Selector(new List<Node>() { ScaredSequence, AttackOrMoveSelectorTwo }); //If a target has been set, choose whether to attack or retreat based on the size of the shadow
+        
+        RootSequenceStageOne = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
+        RootSequenceStageTwo = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreatTwo});
 
-        RootSequence = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
+        if (AngerStage == 0)
+            Root = RootSequenceStageOne;
+        else if (AngerStage == 1)
+            Root = RootSequenceStageTwo;
 
         attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
         myNavMeshAgent = GetComponent<NavMeshAgent>();
+        animationTimer = animationTime;
 
         EnemyManager.AddEnemy(this);
     }
 
     // Update is called once per frame
     void Update() {
-        RootSequence.Evaluate();
+        Root.Evaluate();
     }
 
     NodeStates SetPlayerTarget() {
@@ -174,5 +193,32 @@ public class BehaviourTree : MonoBehaviour {
                 AngerLevel = 0f;
             }
         }
+    }
+
+    NodeStates Jump() {
+        if(jumpTimer == 0f) {
+            jumpTimer = Random.Range(stageInformation[AngerStage].MinJumpTime, stageInformation[AngerStage].MaxJumpTime);
+        }
+        else if(jumpTimer < 0f) {
+            if(animationTimer == animationTime) {
+                //Start JumpAnimation
+                Vector3 heading = (transform.position - Target.transform.position).normalized;
+                myNavMeshAgent.SetDestination(Target.transform.position + heading);
+                myNavMeshAgent.speed = 5.0f;
+            }
+            if (animationTimer >= 0f) {
+                animationTimer -= Time.deltaTime;
+                return NodeStates.RUNNING;
+            }
+            else {
+                jumpTimer = 0f;
+                return NodeStates.SUCCESS;
+            }
+        }
+        else {
+            jumpTimer -= Time.deltaTime;
+        }
+
+        return NodeStates.FAILURE;
     }
 }

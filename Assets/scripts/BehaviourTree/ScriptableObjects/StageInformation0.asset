@@ -23,3 +23,5 @@ MonoBehaviour:
   MinTimeTillAttack: 5
   MaxTimeTillAttack: 10
   ScaredTime: 3
+  MinJumpTime: 1
+  MaxJumpTime: 4

@@ -19,3 +19,9 @@ MonoBehaviour:
   Damage: 3
   AttackTime: 1
   Speed: 3
+  DistanceToCircleAt: 0
+  MinTimeTillAttack: 0
+  MaxTimeTillAttack: 0
+  ScaredTime: 0
+  MinJumpTime: 1
+  MaxJumpTime: 3

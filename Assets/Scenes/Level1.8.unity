@@ -542,6 +542,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -7188,6 +7193,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -8999,6 +9009,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -9384,6 +9399,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -9604,6 +9624,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -10270,6 +10295,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -10854,6 +10884,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
 --- !u!1 &960835597
@@ -11270,6 +11305,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -11447,6 +11487,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -11733,6 +11778,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -12018,6 +12068,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -13212,6 +13267,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -13399,6 +13459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -29531,6 +29596,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
 --- !u!1 &1516489256 stripped
@@ -30291,6 +30361,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -30578,6 +30653,11 @@ PrefabInstance:
       propertyPath: Speed
       value: 8.3
       objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -30761,6 +30841,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a709ad77fd251814a996b3c1b837a0be, type: 3}
@@ -31002,6 +31087,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -31283,6 +31373,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Speed
       value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569110603705229061, guid: a709ad77fd251814a996b3c1b837a0be,
+        type: 3}
+      propertyPath: AngerStage
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
