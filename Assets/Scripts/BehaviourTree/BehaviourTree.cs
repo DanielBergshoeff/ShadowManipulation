@@ -11,16 +11,25 @@ public class BehaviourTree : MonoBehaviour {
     public StageInformation[] stageInformation;
     public float animationTime = 3.0f;
 
+
     private float attackCharge = 0.0f;
     private float walkAroundTimer = 0.0f;
     private float attackTime = 0.0f;
     private float scaredTimer;
     private float jumpTimer = 0f;
-    private float animationTimer = 3.0f;
+    private bool jumpstart = true;
+    private bool jumping = false;
+    private bool preparingJump = false;
+    private float jumpAnimationLength = 0f;
+    private float jumpAnimationTimer = 0f;
+    private Vector3 jumpStartingPosition;
+    private Rigidbody myRigidbody;
 
+    private Animator myAnimator;
     public LayerMask layerObstructions;
 
     private Attackable Target;
+    private Vector3 targetPosition;
 
     private Node Root;
     private Sequence RootSequenceStageOne;
@@ -71,7 +80,12 @@ public class BehaviourTree : MonoBehaviour {
 
         attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
         myNavMeshAgent = GetComponent<NavMeshAgent>();
-        animationTimer = animationTime;
+
+        myAnimator = GetComponent<Animator>();
+        myRigidbody = GetComponent<Rigidbody>();
+
+        jumpAnimationLength = GetClipLength("MonsterJumpDaniel");
+        Debug.Log(jumpAnimationLength);
 
         EnemyManager.AddEnemy(this);
     }
@@ -79,6 +93,10 @@ public class BehaviourTree : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         Root.Evaluate();
+
+        if (Input.GetKey(KeyCode.E)) {
+                transform.position = targetPosition;
+        }
     }
 
     NodeStates SetPlayerTarget() {
@@ -191,8 +209,20 @@ public class BehaviourTree : MonoBehaviour {
             if (AngerLevel > stageInformation[AngerStage+1].AngerToStage) {
                 AngerStage++;
                 AngerLevel = 0f;
+                if(AngerStage == 0) {
+                    Root = RootSequenceStageOne;
+                }
+                else if(AngerStage == 1) {
+                    Root = RootSequenceStageTwo;
+                }
             }
         }
+    }
+
+    public void JumpOrNotJump() {
+        jumping = !jumping;
+        preparingJump = false;
+        Debug.Log("Currently jumping: " + jumping.ToString());
     }
 
     NodeStates Jump() {
@@ -200,25 +230,66 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = Random.Range(stageInformation[AngerStage].MinJumpTime, stageInformation[AngerStage].MaxJumpTime);
         }
         else if(jumpTimer < 0f) {
-            if(animationTimer == animationTime) {
-                //Start JumpAnimation
-                Vector3 heading = (transform.position - Target.transform.position).normalized;
-                myNavMeshAgent.SetDestination(Target.transform.position + heading);
-                myNavMeshAgent.speed = 5.0f;
+            if(jumpstart) {
+                //Start jump preparing animation
+                myAnimator.SetTrigger("Jump");
+                Vector3 heading = transform.position - new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
+                Vector3 direction = heading.normalized;
+                Vector3 target = Vector3.zero;
+                if(heading.magnitude - 1f <= stageInformation[AngerStage].MaxJumpLength) {
+                    target = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z) + direction * 1f;
+                }
+                else {
+                    target = transform.position - direction * stageInformation[AngerStage].MaxJumpLength;
+                }
+
+                myNavMeshAgent.enabled = false;
+
+                targetPosition = target;
+                jumpstart = false;
+                preparingJump = true;
+                jumpAnimationTimer = 0f;
+                jumpStartingPosition = transform.position;
+                transform.LookAt(Target.transform);
             }
-            if (animationTimer >= 0f) {
-                animationTimer -= Time.deltaTime;
-                return NodeStates.RUNNING;
+            else if (jumping) {
+                //Play jumping animation
+                transform.LookAt(Target.transform);
+                jumpAnimationTimer += Time.deltaTime;
+                jumpAnimationTimer = Mathf.Clamp(jumpAnimationTimer, 0f, jumpAnimationLength);
+                Debug.Log(jumpAnimationTimer);
+                transform.position = Vector3.Lerp(jumpStartingPosition, targetPosition, jumpAnimationTimer / jumpAnimationLength);
+                Debug.Log(transform.position);
+                Debug.Log((transform.position - new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z)).magnitude);
             }
-            else {
+            else if(!preparingJump){
+                //End jump
                 jumpTimer = 0f;
+                jumpstart = true;
+                transform.position = targetPosition;
+                Debug.Log((transform.position - new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z)).magnitude);
+                myNavMeshAgent.enabled = true;
                 return NodeStates.SUCCESS;
             }
+            return NodeStates.RUNNING;
         }
         else {
             jumpTimer -= Time.deltaTime;
         }
 
         return NodeStates.FAILURE;
+    }
+
+    private float GetClipLength(string clipName) {
+        RuntimeAnimatorController ac = myAnimator.runtimeAnimatorController;    //Get Animator controller
+        for (int i = 0; i < ac.animationClips.Length; i++)                 //For all animations
+        {
+            if (ac.animationClips[i].name == clipName)        //If it has the same name as your clip
+            {
+                return ac.animationClips[i].length;
+            }
+        }
+
+        return 0f;
     }
 }
