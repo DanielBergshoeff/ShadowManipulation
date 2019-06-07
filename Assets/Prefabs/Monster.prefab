@@ -139,6 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4419447030704228704}
+  - component: {fileID: 7221055992549763926}
   m_Layer: 0
   m_Name: QuickRigCharacter_LeftArm
   m_TagString: Untagged
@@ -161,6 +162,20 @@ Transform:
   m_Father: {fileID: 4419447030704228510}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &7221055992549763926
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419447030703740032}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.003
+  m_Height: 0.02
+  m_Direction: 0
+  m_Center: {x: -0.01, y: 0, z: 0}
 --- !u!1 &4419447030703740034
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4419447030704228708}
+  - component: {fileID: 1334635782752639864}
   m_Layer: 0
   m_Name: QuickRigCharacter_LeftForeArm
   m_TagString: Untagged
@@ -225,6 +241,20 @@ Transform:
   m_Father: {fileID: 4419447030704228704}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1334635782752639864
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419447030703740036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.005
+  m_Height: 0.025
+  m_Direction: 0
+  m_Center: {x: -0.01, y: 0, z: 0}
 --- !u!1 &4419447030703740038
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4419447030704228490}
+  - component: {fileID: 7435807105161711398}
   m_Layer: 0
   m_Name: QuickRigCharacter_RightArm
   m_TagString: Untagged
@@ -836,6 +867,20 @@ Transform:
   m_Father: {fileID: 4419447030704228480}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &7435807105161711398
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419447030703740074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.003
+  m_Height: 0.02
+  m_Direction: 0
+  m_Center: {x: 0.01, y: 0, z: 0}
 --- !u!1 &4419447030703740076
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,6 +890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4419447030704228492}
+  - component: {fileID: 375584482416198762}
   m_Layer: 0
   m_Name: QuickRigCharacter_RightHand
   m_TagString: Untagged
@@ -866,6 +912,20 @@ Transform:
   m_Father: {fileID: 4419447030704228494}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &375584482416198762
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419447030703740076}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.01, z: 0}
 --- !u!1 &4419447030703740078
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4419447030704228494}
+  - component: {fileID: 1630453855206606251}
   m_Layer: 0
   m_Name: QuickRigCharacter_RightForeArm
   m_TagString: Untagged
@@ -897,6 +958,20 @@ Transform:
   m_Father: {fileID: 4419447030704228490}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1630453855206606251
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419447030703740078}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.005
+  m_Height: 0.025
+  m_Direction: 0
+  m_Center: {x: 0.01, y: 0, z: 0}
 --- !u!1 &4419447030703740080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4419447030704228506}
+  - component: {fileID: 3709427366560665117}
   m_Layer: 0
   m_Name: QuickRigCharacter_LeftHand
   m_TagString: Untagged
@@ -1082,6 +1158,20 @@ Transform:
   m_Father: {fileID: 4419447030704228708}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3709427366560665117
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419447030703740090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.01, z: 0}
 --- !u!1 &4419447030703740092
 GameObject:
   m_ObjectHideFlags: 0

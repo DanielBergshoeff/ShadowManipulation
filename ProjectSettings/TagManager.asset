@@ -7,6 +7,7 @@ TagManager:
   - Cube
   - Wall
   - Monster
+  - Light
   layers:
   - Default
   - TransparentFX

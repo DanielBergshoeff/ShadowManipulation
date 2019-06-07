@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void Respawn() {
+        Invoke("ReloadScene", 5.0f);
+    }
+
+    public void ReloadScene() {
         Checkpoint.CheckpointsActive = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

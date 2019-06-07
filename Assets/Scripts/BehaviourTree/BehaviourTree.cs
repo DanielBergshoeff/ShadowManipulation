@@ -15,11 +15,13 @@ public class BehaviourTree : MonoBehaviour {
     private float attackCharge = 0.0f;
     private float walkAroundTimer = 0.0f;
     private float attackTime = 0.0f;
+    private bool attacking = false;
     private float scaredTimer;
     private float jumpTimer = 0f;
     private bool jumpstart = true;
     private bool jumping = false;
     private bool preparingJump = false;
+    private bool jumpTargetSet = false;
     private float jumpAnimationLength = 0f;
     private float jumpAnimationTimer = 0f;
     private Vector3 jumpStartingPosition;
@@ -30,6 +32,7 @@ public class BehaviourTree : MonoBehaviour {
 
     private Attackable Target;
     private Vector3 targetPosition;
+    private Vector3 heightRemoved;
 
     private Node Root;
     private Sequence RootSequenceStageOne;
@@ -92,11 +95,16 @@ public class BehaviourTree : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Root.Evaluate();
+        if(Target != null)
+            heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z); //Calculate the distance from the target
 
-        if (Input.GetKey(KeyCode.E)) {
-                transform.position = targetPosition;
+        if (attacking) {
+            AttackTarget();
+            return;
         }
+
+        Root.Evaluate();
+        
     }
 
     NodeStates SetPlayerTarget() {
@@ -120,12 +128,31 @@ public class BehaviourTree : MonoBehaviour {
         return NodeStates.FAILURE;
     }
 
-    NodeStates AttackTarget() {
-        Vector3 heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
-        if ((heightRemoved - transform.position).sqrMagnitude < stageInformation[AngerStage].AttackRange * stageInformation[AngerStage].AttackRange) {
-            attackCharge += Time.deltaTime;
+    public void EndAttack() {
+        attacking = false;
+        myNavMeshAgent.enabled = true;
+    }
 
-            if (attackCharge >= stageInformation[AngerStage].AttackTime) {//If the attack has been charged up, apply damage and reset timers
+    NodeStates AttackTarget() {
+        myAnimator.SetBool("Scared", false);
+        if (jumping)
+            return NodeStates.FAILURE;
+        if ((heightRemoved - transform.position).sqrMagnitude < stageInformation[AngerStage].AttackRange * stageInformation[AngerStage].AttackRange) {
+            if (!attacking) {
+                myAnimator.SetTrigger("Attack");
+                myAnimator.SetFloat("Speed", 0f);
+                myNavMeshAgent.enabled = false;
+                transform.LookAt(Target.transform);
+                transform.rotation = Quaternion.LookRotation(transform.right);
+                attacking = true;
+            }
+
+            transform.LookAt(Target.transform);
+            transform.rotation = Quaternion.LookRotation(transform.right);
+            //attackCharge += Time.deltaTime;
+            return NodeStates.RUNNING;
+
+            /*if (attackCharge >= stageInformation[AngerStage].AttackTime) {//If the attack has been charged up, apply damage and reset timers
                 walkAroundTimer = 0.0f;
                 attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
                 Target.TakeDamage(stageInformation[AngerStage].Damage);
@@ -134,13 +161,16 @@ public class BehaviourTree : MonoBehaviour {
             }
             else {
                 return NodeStates.RUNNING;
-            }
+            }*/
         }
-        attackCharge = 0.0f;
+        //attackCharge = 0.0f;
         return NodeStates.FAILURE;
     }
 
     NodeStates CheckIfScared() {
+        if (jumping || preparingJump)
+            return NodeStates.FAILURE;
+
         float distShadow = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
         float speedCalculation = stageInformation[AngerStage].Size * distShadow - LightManager.Instance.SizeShadow;
         speedCalculation = Mathf.Clamp(speedCalculation / 50, -stageInformation[AngerStage].Speed, stageInformation[AngerStage].Speed);
@@ -156,6 +186,7 @@ public class BehaviourTree : MonoBehaviour {
 
     NodeStates MoveToTarget() {
         myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+        myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
         myNavMeshAgent.SetDestination(Target.transform.position);
         return NodeStates.RUNNING;
     }
@@ -163,19 +194,21 @@ public class BehaviourTree : MonoBehaviour {
     NodeStates Escape() {
         if (scaredTimer <= stageInformation[AngerStage].ScaredTime) { //Play scared animation for ScaredTime amt of seconds
             myNavMeshAgent.speed = 0f;
+            myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
             scaredTimer += Time.deltaTime;
         }
         else { //After being scared start running away
             var targetHeading = LightManager.Instance.AveragePos - transform.position;
             var targetDirection = targetHeading / (targetHeading.magnitude);
             myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+            myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
+            myAnimator.SetBool("Scared", true);
             myNavMeshAgent.SetDestination(transform.position - targetDirection);
         }
         return NodeStates.RUNNING;
     }
 
     NodeStates CircleAroundTarget() {
-        Vector3 heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
         Vector3 start = heightRemoved - transform.position;
 
         if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt * stageInformation[AngerStage].DistanceToCircleAt) { //If the Target is close enough to start circling around it
@@ -194,6 +227,7 @@ public class BehaviourTree : MonoBehaviour {
                     pos = hit.point;
                 }
                 myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
+                myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
                 myNavMeshAgent.SetDestination(pos);
             }
 
@@ -222,7 +256,29 @@ public class BehaviourTree : MonoBehaviour {
     public void JumpOrNotJump() {
         jumping = !jumping;
         preparingJump = false;
-        Debug.Log("Currently jumping: " + jumping.ToString());
+        //Debug.Log("Currently jumping: " + jumping.ToString());
+
+        if (!jumping) {
+            //End jump
+            //Debug.Log("End jump");
+            jumpTimer = 0f;
+            jumpstart = true;
+            transform.position = targetPosition;
+            myNavMeshAgent.enabled = true;
+        }
+        else {
+            Vector3 heading = transform.position - heightRemoved;
+            Vector3 direction = heading.normalized;
+            Vector3 target = Vector3.zero;
+            if (heading.magnitude - 1f <= stageInformation[AngerStage].MaxJumpLength) {
+                target = heightRemoved + direction * 1f;
+            }
+            else {
+                target = transform.position - direction * stageInformation[AngerStage].MaxJumpLength;
+            }
+            targetPosition = target;
+            jumpTargetSet = true;
+        }
     }
 
     NodeStates Jump() {
@@ -230,46 +286,28 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = Random.Range(stageInformation[AngerStage].MinJumpTime, stageInformation[AngerStage].MaxJumpTime);
         }
         else if(jumpTimer < 0f) {
-            if(jumpstart) {
+            if(jumpstart && (transform.position - heightRemoved).magnitude >= stageInformation[AngerStage].MinJumpLength) {
                 //Start jump preparing animation
                 myAnimator.SetTrigger("Jump");
-                Vector3 heading = transform.position - new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
-                Vector3 direction = heading.normalized;
-                Vector3 target = Vector3.zero;
-                if(heading.magnitude - 1f <= stageInformation[AngerStage].MaxJumpLength) {
-                    target = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z) + direction * 1f;
-                }
-                else {
-                    target = transform.position - direction * stageInformation[AngerStage].MaxJumpLength;
-                }
-
+                
                 myNavMeshAgent.enabled = false;
-
-                targetPosition = target;
                 jumpstart = false;
                 preparingJump = true;
                 jumpAnimationTimer = 0f;
                 jumpStartingPosition = transform.position;
                 transform.LookAt(Target.transform);
+                //Debug.Log("Start jump");
             }
-            else if (jumping) {
+            else if (jumping) {                
                 //Play jumping animation
                 transform.LookAt(Target.transform);
                 jumpAnimationTimer += Time.deltaTime;
                 jumpAnimationTimer = Mathf.Clamp(jumpAnimationTimer, 0f, jumpAnimationLength);
-                Debug.Log(jumpAnimationTimer);
                 transform.position = Vector3.Lerp(jumpStartingPosition, targetPosition, jumpAnimationTimer / jumpAnimationLength);
-                Debug.Log(transform.position);
-                Debug.Log((transform.position - new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z)).magnitude);
+                //Debug.Log("Currently jumping");
             }
-            else if(!preparingJump){
-                //End jump
-                jumpTimer = 0f;
-                jumpstart = true;
-                transform.position = targetPosition;
-                Debug.Log((transform.position - new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z)).magnitude);
-                myNavMeshAgent.enabled = true;
-                return NodeStates.SUCCESS;
+            else if(!preparingJump && !jumping){
+                return NodeStates.FAILURE;
             }
             return NodeStates.RUNNING;
         }
@@ -291,5 +329,13 @@ public class BehaviourTree : MonoBehaviour {
         }
 
         return 0f;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (Target != null) {
+            if (other.gameObject == Target.gameObject && attacking) {
+                Target.TakeDamage(stageInformation[AngerStage].Damage);
+            }
+        }
     }
 }

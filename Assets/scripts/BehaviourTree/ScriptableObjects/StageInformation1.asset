@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: StageInformation1
   m_EditorClassIdentifier: 
   AngerToStage: 10
-  Size: 3
-  ViewRange: 40
+  Size: 1
+  ViewRange: 30
   AttackRange: 2
-  Damage: 2
+  Damage: 1
   AttackTime: 1
   Speed: 3
   DistanceToCircleAt: 10
-  MinTimeTillAttack: 5
+  MinTimeTillAttack: 3
   MaxTimeTillAttack: 10
-  ScaredTime: 2
+  ScaredTime: 1
   MinJumpTime: 3
-  MaxJumpTime: 5
+  MaxJumpTime: 10
+  MinJumpLength: 10
   MaxJumpLength: 15

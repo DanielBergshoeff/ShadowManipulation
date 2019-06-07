@@ -15,6 +15,7 @@ public class PlayerBehaviour : Attackable {
     public override void TakeDamage(int dmg) {
         Health -= dmg;
         if (Health <= 0) {
+            myAnimator.SetTrigger("Dead");
             GameManager.Instance.Respawn();
         }
     }
