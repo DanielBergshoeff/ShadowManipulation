@@ -10,6 +10,7 @@ public class BehaviourTree : MonoBehaviour {
     public int AngerStage = 0;
     public StageInformation[] stageInformation;
     public float animationTime = 3.0f;
+    public int StageToAddJump = 1;
 
 
     private float attackCharge = 0.0f;
@@ -79,10 +80,10 @@ public class BehaviourTree : MonoBehaviour {
         RootSequenceStageOne = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
         RootSequenceStageTwo = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreatTwo});
 
-        if (AngerStage == 0)
-            Root = RootSequenceStageOne;
-        else if (AngerStage == 1)
+        if (AngerStage >= StageToAddJump)
             Root = RootSequenceStageTwo;
+        else
+            Root = RootSequenceStageOne;
 
         attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
         myNavMeshAgent = GetComponent<NavMeshAgent>();
