@@ -33,10 +33,8 @@ public class PlayerBehaviour : Attackable {
         if (soundTimer > 0f)
             soundTimer -= Time.deltaTime;
 
-        if (blockMovement) {
-            myAnimator.SetFloat("Speed", 0f);
+        if (blockMovement)
             return;
-        }
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -61,11 +59,7 @@ public class PlayerBehaviour : Attackable {
         }
     }
 
-    public void BlockMovement() {
-        blockMovement = true;
-    }
-
-    public void UnblockMovement() {
+    private void UnblockMovement() {
         blockMovement = false;
     }
 }
