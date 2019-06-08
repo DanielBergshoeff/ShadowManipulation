@@ -26,6 +26,9 @@ public class BehaviourTree : MonoBehaviour {
     private float jumpAnimationTimer = 0f;
     private Vector3 jumpStartingPosition;
     private Rigidbody myRigidbody;
+    private float targetSpeed = 0f;
+
+    private bool movementBlock;
 
     private Animator myAnimator;
     public LayerMask layerObstructions;
@@ -88,7 +91,6 @@ public class BehaviourTree : MonoBehaviour {
         myRigidbody = GetComponent<Rigidbody>();
 
         jumpAnimationLength = GetClipLength("MonsterJumpDaniel");
-        Debug.Log(jumpAnimationLength);
 
         EnemyManager.AddEnemy(this);
     }
@@ -103,9 +105,14 @@ public class BehaviourTree : MonoBehaviour {
             return;
         }
 
+        if(myNavMeshAgent.speed < targetSpeed) {
+            myNavMeshAgent.speed += Time.deltaTime;
+            myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
+        }
+
         Root.Evaluate();
-        
     }
+    
 
     NodeStates SetPlayerTarget() {
         float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
@@ -185,8 +192,7 @@ public class BehaviourTree : MonoBehaviour {
     }
 
     NodeStates MoveToTarget() {
-        myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-        myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
+        targetSpeed = stageInformation[AngerStage].Speed;
         myNavMeshAgent.SetDestination(Target.transform.position);
         return NodeStates.RUNNING;
     }
@@ -200,8 +206,7 @@ public class BehaviourTree : MonoBehaviour {
         else { //After being scared start running away
             var targetHeading = LightManager.Instance.AveragePos - transform.position;
             var targetDirection = targetHeading / (targetHeading.magnitude);
-            myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-            myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
+            targetSpeed = stageInformation[AngerStage].Speed;
             myAnimator.SetBool("Scared", true);
             myNavMeshAgent.SetDestination(transform.position - targetDirection);
         }
