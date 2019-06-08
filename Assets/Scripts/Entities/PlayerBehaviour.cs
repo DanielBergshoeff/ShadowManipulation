@@ -40,12 +40,21 @@ public class PlayerBehaviour : Attackable {
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(horizontal, 0f, vertical);
-        if (movement.sqrMagnitude > 0.05 * 0.05f) {
+        float combination = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
+
+        if (Mathf.Abs(horizontal) + Mathf.Abs(vertical) > 1.0f) {
+            horizontal = horizontal / combination;
+            vertical = vertical / combination;
+            combination = 1f;
+        }
+        Vector3 xaxis = horizontal * Camera.main.transform.right;
+        Vector3 yaxis = vertical * Camera.main.transform.forward;
+        Vector3 movement = xaxis + yaxis;
+        if (combination > 0.05f) {
             transform.position += movement * Time.deltaTime * Speed;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
         }
-        myAnimator.SetFloat("Speed", movement.magnitude);
+        myAnimator.SetFloat("Speed", combination);
     }
 
     private void OnSound(float range, float loudness, Vector3 pos) {
