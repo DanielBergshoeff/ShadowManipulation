@@ -26,6 +26,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
     void Start()
     {
         myAnimator = GetComponent<Animator>();
+        myNavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame

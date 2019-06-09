@@ -6,6 +6,7 @@ public class PlayerBehaviour : Attackable {
     public int Health = 1;
     public float Speed = 3.0f;
     public float soundReactionTime = 30.0f;
+    public float CurrentSpeed = 0f;
 
     private Rigidbody myRigidbody;
     private Animator myAnimator;
@@ -54,6 +55,7 @@ public class PlayerBehaviour : Attackable {
             transform.position += movement * Time.deltaTime * Speed;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
         }
+        CurrentSpeed = combination;
         myAnimator.SetFloat("Speed", combination);
     }
 

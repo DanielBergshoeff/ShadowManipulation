@@ -87,7 +87,6 @@ public class BehaviourTree : MonoBehaviour {
 
         attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
         myNavMeshAgent = GetComponent<NavMeshAgent>();
-
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody>();
 
