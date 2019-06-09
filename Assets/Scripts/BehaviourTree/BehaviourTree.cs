@@ -121,7 +121,7 @@ public class BehaviourTree : MonoBehaviour {
     NodeStates SetPlayerTarget() {
         float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
         float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
-        if (distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange && distPlayer <= stageInformation[AngerStage].ViewRange) {
+        if ((distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange || GameManager.Instance.LightMovementScript.Height > GameManager.Instance.LightMovementScript.maxHeight)&& distPlayer <= stageInformation[AngerStage].ViewRange) {
             Target = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
             return NodeStates.SUCCESS;
         }
@@ -141,7 +141,6 @@ public class BehaviourTree : MonoBehaviour {
 
     public void EndAttack() {
         attacking = false;
-        myNavMeshAgent.enabled = true;
     }
 
     NodeStates AttackTarget() {
@@ -153,7 +152,6 @@ public class BehaviourTree : MonoBehaviour {
                 myAnimator.SetTrigger("Attack");
                 myAnimator.SetFloat("Speed", 0f);
                 targetSpeed = 0f;
-                myNavMeshAgent.enabled = false;
                 transform.LookAt(heightRemoved);
                 transform.rotation = Quaternion.LookRotation(transform.right);
                 attacking = true;
@@ -273,7 +271,6 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = 0f;
             jumpstart = true;
             transform.position = targetPosition;
-            myNavMeshAgent.enabled = true;
         }
         else {
             Vector3 heading = transform.position - heightRemoved;
@@ -299,8 +296,8 @@ public class BehaviourTree : MonoBehaviour {
                 //Start jump preparing animation
                 myAnimator.SetTrigger("Jump");
                 targetSpeed = 0f;
+                myNavMeshAgent.speed = 0f;
 
-                myNavMeshAgent.enabled = false;
                 jumpstart = false;
                 preparingJump = true;
                 jumpAnimationTimer = 0f;

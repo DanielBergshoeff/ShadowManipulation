@@ -63815,11 +63815,3 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.5666666
-    functionName: UnblockMovement
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: ba3cefe4fba125e49b433c4f216df4b2,
-      type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0

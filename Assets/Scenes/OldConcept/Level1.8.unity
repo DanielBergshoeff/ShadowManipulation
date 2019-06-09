@@ -8406,8 +8406,10 @@ MonoBehaviour:
   sphereLight: {fileID: 0}
   Height: 1
   minHeight: 1
-  maxHeight: 5
+  maxHeight: 4
   verticalSpeed: 1
+  verticalSpeedThrown: 10
+  verticalHeightThrown: 10
   horizontalSpeed: 10
 --- !u!4 &255310712
 Transform:
