@@ -512,12 +512,6 @@ Transform:
   m_Father: {fileID: 967371200}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &141812814 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 134338, guid: 7737647c22c1fc64a88d5cd030c352ce,
-    type: 3}
-  m_PrefabInstance: {fileID: 352393520}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &158169099
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158604364}
   m_LocalRotation: {x: 0.12415633, y: 0.6948265, z: -0.12368029, w: 0.69749886}
-  m_LocalPosition: {x: -78.10985, y: 8.23162, z: -16.761372}
+  m_LocalPosition: {x: -78.10985, y: 8.23162, z: -14.760288}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2518,7 +2512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1677c4db6fc0204b8a434e84f0ffc63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightMovementCubesParent: {fileID: 0}
+  lightMovementCubesParent: {fileID: 2067287263}
   Health: 3
   intensityLevels:
   - 0
@@ -3501,7 +3495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightMovementScript: {fileID: 0}
-  LightObject: {fileID: 0}
+  LightObject: {fileID: 425920907}
   Player: {fileID: 103998079}
   currentCheckPoint: {fileID: 591235764}
   checkPoints:
@@ -6262,7 +6256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461888844, guid: bb024f5fca0bf0c4898f09d4348222ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.711084
+      value: -14.71
       objectReference: {fileID: 0}
     - target: {fileID: 461888844, guid: bb024f5fca0bf0c4898f09d4348222ba, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6716,7 +6710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1574821412}
   m_LocalRotation: {x: 0.3399562, y: 0.6189799, z: -0.33833095, w: 0.62195325}
-  m_LocalPosition: {x: -73.659706, y: -0.29000092, z: -14.709712}
+  m_LocalPosition: {x: -73.659706, y: -0.28999996, z: -14.709712}
   m_LocalScale: {x: 1.0000005, y: 0.99999994, z: 1.0000005}
   m_Children:
   - {fileID: 638816717}
@@ -7252,7 +7246,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676707833}
   m_LocalRotation: {x: 0.12415633, y: 0.6948265, z: -0.12368029, w: 0.69749886}
-  m_LocalPosition: {x: -78.10985, y: -6.76838, z: -16.761372}
+  m_LocalPosition: {x: -78.10985, y: -6.76838, z: -14.760288}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 550942595}
@@ -9725,7 +9719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacf7cc04cf31d049bb2f6754f6116ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSkeleton: {fileID: 141812814}
+  PlayerSkeleton: {fileID: 103998079}
   CubeLayer:
     serializedVersion: 2
     m_Bits: 512
