@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Environment3.unity
     guid: fb4ca09c01cddd24895b0055e8425569
+  - enabled: 1
+    path: Assets/Scenes/Streets.unity
+    guid: 42a0937f9d0e26e43a88070041b32a3f
+  - enabled: 1
+    path: Assets/Scenes/Tables.unity
+    guid: 44aabc03b91c97848befa9bbd0b80b52
   m_configObjects: {}
