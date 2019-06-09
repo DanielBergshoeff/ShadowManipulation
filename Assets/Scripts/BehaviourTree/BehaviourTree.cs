@@ -155,13 +155,13 @@ public class BehaviourTree : MonoBehaviour {
                 myAnimator.SetFloat("Speed", 0f);
                 targetSpeed = 0f;
                 myNavMeshAgent.enabled = false;
-                transform.LookAt(Target.transform);
+                transform.LookAt(heightRemoved);
                 transform.rotation = Quaternion.LookRotation(transform.right);
                 attacking = true;
             }
 
             Debug.Log("Attacking");
-            transform.LookAt(Target.transform);
+            transform.LookAt(heightRemoved);
             transform.Rotate(new Vector3(0f, 50f, 0f));
             //transform.rotation = Quaternion.LookRotation(transform.right);
             return NodeStates.RUNNING;
@@ -306,12 +306,12 @@ public class BehaviourTree : MonoBehaviour {
                 preparingJump = true;
                 jumpAnimationTimer = 0f;
                 jumpStartingPosition = transform.position;
-                transform.LookAt(Target.transform);
+                transform.LookAt(heightRemoved);
                 //Debug.Log("Start jump");
             }
             else if (jumping) {                
                 //Play jumping animation
-                transform.LookAt(Target.transform);
+                transform.LookAt(heightRemoved);
                 jumpAnimationTimer += Time.deltaTime;
                 jumpAnimationTimer = Mathf.Clamp(jumpAnimationTimer, 0f, jumpAnimationLength);
                 transform.position = Vector3.Lerp(jumpStartingPosition, targetPosition, jumpAnimationTimer / jumpAnimationLength);
@@ -346,6 +346,9 @@ public class BehaviourTree : MonoBehaviour {
         if (Target != null) {
             if (other.gameObject == Target.gameObject && attacking) {
                 Target.TakeDamage(stageInformation[AngerStage].Damage);
+                if (Target.CompareTag("Light")) {
+                    Destroy(gameObject);
+                }
             }
         }
     }
