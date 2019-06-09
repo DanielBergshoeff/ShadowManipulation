@@ -6,6 +6,7 @@ public class PlayerBehaviour : Attackable {
     public int Health = 1;
     public float Speed = 3.0f;
     public float soundReactionTime = 30.0f;
+    public float CurrentSpeed = 0f;
 
     private Rigidbody myRigidbody;
     private Animator myAnimator;
@@ -47,13 +48,14 @@ public class PlayerBehaviour : Attackable {
             vertical = vertical / combination;
             combination = 1f;
         }
-        Vector3 xaxis = horizontal * Camera.main.transform.right;
-        Vector3 yaxis = vertical * Camera.main.transform.forward;
+        Vector3 xaxis = horizontal * new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
+        Vector3 yaxis = vertical * new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
         Vector3 movement = xaxis + yaxis;
         if (combination > 0.05f) {
             transform.position += movement * Time.deltaTime * Speed;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
         }
+        CurrentSpeed = combination;
         myAnimator.SetFloat("Speed", combination);
     }
 

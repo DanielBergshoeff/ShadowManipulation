@@ -24,10 +24,12 @@ public class SoundObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.collider.CompareTag("Player")) {
-            if (waitForPlay <= 0f) {
-                EnemyManager.soundUnityEvent.Invoke(Range, Loudness, transform.position);
-                myAudioSource.PlayOneShot(Sound);
-                waitForPlay = Sound.length;
+            if (GameManager.Instance.Player.GetComponent<PlayerBehaviour>().CurrentSpeed > 0.3f) {
+                if (waitForPlay <= 0f) {
+                    EnemyManager.soundUnityEvent.Invoke(Range, Loudness, transform.position);
+                    myAudioSource.PlayOneShot(Sound);
+                    waitForPlay = Sound.length;
+                }
             }
         }
     }
