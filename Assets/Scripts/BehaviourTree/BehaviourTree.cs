@@ -101,12 +101,13 @@ public class BehaviourTree : MonoBehaviour {
         if (Mathf.Abs(Mathf.Abs(myNavMeshAgent.speed) - Mathf.Abs(targetSpeed)) < 0.1f) {
             myNavMeshAgent.speed = targetSpeed;
         }
-        else if (myNavMeshAgent.speed < targetSpeed) {
-            myNavMeshAgent.speed += Time.deltaTime * 5.0f;
-        }
         else if (myNavMeshAgent.speed > targetSpeed) {
             myNavMeshAgent.speed -= Time.deltaTime * 5.0f;
         }
+        else if (myNavMeshAgent.speed < targetSpeed) {
+            myNavMeshAgent.speed += Time.deltaTime * 5.0f;
+        }
+        
         myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
 
         if (attacking) {
@@ -152,6 +153,7 @@ public class BehaviourTree : MonoBehaviour {
             if (!attacking) {
                 myAnimator.SetTrigger("Attack");
                 myAnimator.SetFloat("Speed", 0f);
+                targetSpeed = 0f;
                 myNavMeshAgent.enabled = false;
                 transform.LookAt(Target.transform);
                 transform.rotation = Quaternion.LookRotation(transform.right);
