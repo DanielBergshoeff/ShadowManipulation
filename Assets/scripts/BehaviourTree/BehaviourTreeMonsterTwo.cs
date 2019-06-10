@@ -18,7 +18,9 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
     private Vector3 heightRemoved;
     private NavMeshAgent myNavMeshAgent;
     private bool attacking = false;
+    private bool attackOnPlayer = false;
     private bool aboveGround = false;
+    private Vector3 posRelativeToPlayer;
 
     private Attackable Target;
     private Animator myAnimator;
@@ -55,6 +57,10 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
             transform.LookAt(heightRemoved);
             return;
         }
+        else if (attackOnPlayer) {
+            transform.position = heightRemoved + posRelativeToPlayer;
+            transform.LookAt(heightRemoved);
+        }
 
 
         if (Target.gameObject == GameManager.Instance.LightObject) { //If the Light is the target
@@ -65,7 +71,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
                 myNavMeshAgent.SetDestination(targetPosition);
                 myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
             }
-            else if(!attacking){
+            else if(!attacking && !attackOnPlayer){
                 myNavMeshAgent.speed = 0f;
                 //myNavMeshAgent.enabled = false;
                 myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
@@ -81,12 +87,13 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
                 myNavMeshAgent.SetDestination(targetPosition);
                 myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
             }
-            else if(!attacking){
+            else if(!attackOnPlayer && !attacking){
                 myNavMeshAgent.speed = 0f;
                 //myNavMeshAgent.enabled = false;
+                posRelativeToPlayer = (transform.position - heightRemoved);
                 myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
                 myAnimator.SetTrigger("GrabPlayer");
-                attacking = true;
+                attackOnPlayer = true;
             }
         }
         
