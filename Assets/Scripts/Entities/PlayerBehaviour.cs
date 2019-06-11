@@ -20,7 +20,7 @@ public class PlayerBehaviour : Attackable {
         Health -= dmg;
         if (Health <= 0) {
             myAnimator.SetTrigger("Dead");
-            GameManager.Instance.Respawn();
+            GameManager.Instance.Respawn(5f);
         }
     }
 

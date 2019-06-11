@@ -5,6 +5,6 @@ using UnityEngine;
 public class Respawn : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision) {
-        GameManager.Instance.Respawn();
+        GameManager.Instance.Respawn(0f);
     }
 }
