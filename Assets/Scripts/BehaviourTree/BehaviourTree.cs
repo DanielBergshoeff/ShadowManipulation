@@ -139,9 +139,11 @@ public class BehaviourTree : MonoBehaviour {
         float distLight = heading.sqrMagnitude;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, heading.normalized, out hit, stageInformation[AngerStage].ViewRange)) {
-            if (distLight <= stageInformation[AngerStage].ViewRange * stageInformation[AngerStage].ViewRange) {
-                Target = GameManager.Instance.LightMovementScript;
-                return NodeStates.SUCCESS;
+            if (hit.collider.gameObject == GameManager.Instance.LightObject) {
+                if (distLight <= stageInformation[AngerStage].ViewRange * stageInformation[AngerStage].ViewRange) {
+                    Target = GameManager.Instance.LightMovementScript;
+                    return NodeStates.SUCCESS;
+                }
             }
         }
 
