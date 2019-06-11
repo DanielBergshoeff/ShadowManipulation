@@ -119,21 +119,30 @@ public class BehaviourTree : MonoBehaviour {
     
 
     NodeStates SetPlayerTarget() {
-        float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
-        float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
-        if ((distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange || GameManager.Instance.LightMovementScript.Height > GameManager.Instance.LightMovementScript.maxHeight)&& distPlayer <= stageInformation[AngerStage].ViewRange) {
-            Target = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
-            return NodeStates.SUCCESS;
+        Vector3 heading = GameManager.Instance.Player.transform.position - transform.position;
+        float distPlayer = heading.sqrMagnitude;
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, heading.normalized, out hit, stageInformation[AngerStage].ViewRange)) {
+            if(hit.collider.gameObject == GameManager.Instance.Player) {
+                float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
+                if ((distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange || GameManager.Instance.LightMovementScript.Height > GameManager.Instance.LightMovementScript.maxHeight) && distPlayer <= stageInformation[AngerStage].ViewRange * stageInformation[AngerStage].ViewRange) {
+                    Target = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
+                    return NodeStates.SUCCESS;
+                }
+            }
         }
-
         return NodeStates.FAILURE;
     }
 
     NodeStates SetLightTarget() {
-        float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
-        if (distLight <= stageInformation[AngerStage].ViewRange) {
-            Target = GameManager.Instance.LightMovementScript;
-            return NodeStates.SUCCESS;
+        Vector3 heading = GameManager.Instance.LightObject.transform.position - transform.position;
+        float distLight = heading.sqrMagnitude;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, heading.normalized, out hit, stageInformation[AngerStage].ViewRange)) {
+            if (distLight <= stageInformation[AngerStage].ViewRange * stageInformation[AngerStage].ViewRange) {
+                Target = GameManager.Instance.LightMovementScript;
+                return NodeStates.SUCCESS;
+            }
         }
 
         return NodeStates.FAILURE;
