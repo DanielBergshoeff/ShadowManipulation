@@ -101,7 +101,7 @@ public class LightManager : MonoBehaviour
                     furthestPointDistance = distancePoint;
                     furthest = hit.point;
                 }
-                //ScareMonstersUnderShadow(hit.collider);
+                ScareMonstersUnderShadow(hit.collider);
                 average += hit.point;
                 count++;
 
@@ -122,8 +122,8 @@ public class LightManager : MonoBehaviour
     }
 
     private void ScareMonstersUnderShadow(Collider collider) {
-        if (collider.CompareTag("Monster")) {
-            collider.transform.parent.GetComponent<Turter>().Scare();
+        if (collider.CompareTag("Arm")) {
+            collider.GetComponent<BehaviourTreeMonsterTwo>().UnslowPlayer();
         }
     }
 

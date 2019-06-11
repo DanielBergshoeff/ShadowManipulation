@@ -21,6 +21,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
     private bool attackOnPlayer = false;
     private bool aboveGround = false;
     private Vector3 posRelativeToPlayer;
+    private bool slowingPlayer = false;
 
     private Attackable Target;
     private Animator myAnimator;
@@ -35,16 +36,18 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.LightMovementScript.Height <= MaxLightHeight && Vector3.Distance(new Vector3(GameManager.Instance.LightObject.transform.position.x, transform.position.y, GameManager.Instance.LightObject.transform.position.z), transform.position) <= ViewRange && !attacking) {
+        if (GameManager.Instance.LightMovementScript.Height <= MaxLightHeight && Vector3.Distance(new Vector3(GameManager.Instance.LightObject.transform.position.x, transform.position.y, GameManager.Instance.LightObject.transform.position.z), transform.position) <= ViewRange && !attacking && !attackOnPlayer) {
             lightDownTimer += Time.deltaTime;
             if (lightDownTimer >= TimeLightDownToThrow) {
                 Target = GameManager.Instance.LightObject.GetComponent<Attackable>();
             }
         }
+        else
+            lightDownTimer = 0f;
 
         if (Target == null) {
             if(Vector3.Distance(transform.position, new Vector3(GameManager.Instance.Player.transform.position.x, transform.position.y, GameManager.Instance.Player.transform.position.z)) <= ViewRange) {
-                Target = GameManager.Instance.LightObject.GetComponent<Attackable>();
+                Target = GameManager.Instance.Player.GetComponent<Attackable>();
             }
             else
                 return;
@@ -60,6 +63,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
         else if (attackOnPlayer) {
             transform.position = heightRemoved + posRelativeToPlayer;
             transform.LookAt(heightRemoved);
+            return;
         }
 
 
@@ -108,5 +112,19 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
 
     public void ThrowLightUp() {
         GameManager.Instance.LightMovementScript.ThrowUp();
+    }
+
+    public void SlowPlayer() {
+        GameManager.Instance.Player.GetComponent<PlayerBehaviour>().MonsterArms += 1;
+        GameManager.Instance.LightMovementScript.MonsterArms += 1;
+        slowingPlayer = true;
+    }
+
+    public void UnslowPlayer() {
+        if (slowingPlayer) {
+            GameManager.Instance.Player.GetComponent<PlayerBehaviour>().MonsterArms -= 1;
+            GameManager.Instance.LightMovementScript.MonsterArms -= 1;
+        }
+        Destroy(gameObject);
     }
 }
