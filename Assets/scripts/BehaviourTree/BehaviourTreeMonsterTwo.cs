@@ -128,6 +128,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
         if (slowingPlayer) {
             GameManager.Instance.Player.GetComponent<PlayerBehaviour>().MonsterArms -= 1;
             GameManager.Instance.LightMovementScript.MonsterArms -= 1;
+            slowingPlayer = false;
         }
         myAudioSource.PlayOneShot(AudioManager.Instance.HandGrab);
         Destroy(gameObject);

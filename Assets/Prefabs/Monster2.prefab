@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ViewRange: 30
-  Speed: 3
+  Speed: 6
   TimeLightDownToThrow: 3
   LightAttackDistance: 0
   PlayerAttackDistance: 2
@@ -1078,6 +1078,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 252659859889992522}
     m_Modifications:
+    - target: {fileID: 598999337948587032, guid: 9bd2acb2bbcc5bf4581cb96323a0480b,
+        type: 3}
+      propertyPath: m_Name
+      value: GroundMonsterDecal
+      objectReference: {fileID: 0}
     - target: {fileID: 598999337948587038, guid: 9bd2acb2bbcc5bf4581cb96323a0480b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1147,11 +1152,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.041145112
-      objectReference: {fileID: 0}
-    - target: {fileID: 598999337948587032, guid: 9bd2acb2bbcc5bf4581cb96323a0480b,
-        type: 3}
-      propertyPath: m_Name
-      value: GroundMonsterDecal
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bd2acb2bbcc5bf4581cb96323a0480b, type: 3}

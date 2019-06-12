@@ -15,15 +15,15 @@ MonoBehaviour:
   AngerToStage: 10
   Size: 1
   ViewRange: 30
-  AttackRange: 2
+  AttackRange: 1
   Damage: 1
   AttackTime: 1
-  Speed: 3
-  DistanceToCircleAt: 10
-  MinTimeTillAttack: 3
-  MaxTimeTillAttack: 10
+  Speed: 5
+  DistanceToCircleAt: 7
+  MinTimeTillAttack: 1
+  MaxTimeTillAttack: 5
   ScaredTime: 1
-  MinJumpTime: 3
+  MinJumpTime: 1
   MaxJumpTime: 10
   MinJumpLength: 10
   MaxJumpLength: 15

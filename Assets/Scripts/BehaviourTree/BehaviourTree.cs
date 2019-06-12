@@ -271,11 +271,12 @@ public class BehaviourTree : MonoBehaviour {
             if (AngerLevel > stageInformation[AngerStage+1].AngerToStage) {
                 AngerStage++;
                 AngerLevel = 0f;
-                if(AngerStage == 0) {
-                    Root = RootSequenceStageOne;
-                }
-                else if(AngerStage == 1) {
+                
+                if(AngerStage == StageToAddJump) {
                     Root = RootSequenceStageTwo;
+                }
+                else {
+                    Root = RootSequenceStageOne;
                 }
             }
         }

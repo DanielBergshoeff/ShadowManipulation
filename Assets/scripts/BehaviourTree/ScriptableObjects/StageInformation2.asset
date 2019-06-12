@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429c285c13cc4fe43b39dd3cfeb42f0f, type: 3}
   m_Name: StageInformation2
   m_EditorClassIdentifier: 
-  AngerToStage: 45
-  Size: 10
-  ViewRange: 30
-  AttackRange: 5
-  Damage: 3
+  AngerToStage: 10
+  Size: 1
+  ViewRange: 50
+  AttackRange: 1
+  Damage: 1
   AttackTime: 1
-  Speed: 3
-  DistanceToCircleAt: 0
-  MinTimeTillAttack: 0
-  MaxTimeTillAttack: 0
-  ScaredTime: 0
+  Speed: 7
+  DistanceToCircleAt: 5
+  MinTimeTillAttack: 1
+  MaxTimeTillAttack: 3
+  ScaredTime: 1
   MinJumpTime: 1
   MaxJumpTime: 3
+  MinJumpLength: 8
+  MaxJumpLength: 30

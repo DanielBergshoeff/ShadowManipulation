@@ -91,10 +91,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AngerLevel: 0
-  AngerStage: 0
+  AngerStage: 1
   stageInformation:
   - {fileID: 11400000, guid: 88454fc72c18379418e839a6ed8b70db, type: 2}
   - {fileID: 11400000, guid: 3781bc63e882bc646aedf60a2e449d11, type: 2}
+  - {fileID: 11400000, guid: 63e477c2319e923438f6c87151244fe9, type: 2}
   animationTime: 30
   StageToAddJump: 1
   layerObstructions:
