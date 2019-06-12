@@ -123,7 +123,7 @@ public class Turter : MonoBehaviour
 
     private bool CheckAttackPlayer() {
         if ((GameManager.Instance.Player.transform.position - transform.position).magnitude < AttackRange) {
-            GameManager.Instance.Respawn();
+            GameManager.Instance.Respawn(5f);
             return true;
         }
         return false;

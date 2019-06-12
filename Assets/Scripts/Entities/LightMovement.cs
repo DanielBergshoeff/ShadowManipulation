@@ -11,6 +11,10 @@ public class LightMovement : Attackable
     public List<float> intensityLevels;
     public bool StayOnPlayer = false;
 
+    public float SlowPerMonsterArm = 0.1f;
+    public float MaxSlow = 0.4f;
+    public int MonsterArms = 0;
+
     private int currentCubeTarget = 0;
     private bool lastCubeReached = false;
     public HDAdditionalLightData sphereLight;
@@ -65,10 +69,10 @@ public class LightMovement : Attackable
             }
 
             if (rb && !rt && Height > minHeight) {
-                Height -= Time.deltaTime * verticalSpeed;
+                Height -= Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
             }
             else if(rt && !rb && Height < maxHeight){
-                Height += Time.deltaTime * verticalSpeed;
+                Height += Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
             }
 
             if(Height > maxHeight && !throwup) {
@@ -104,7 +108,7 @@ public class LightMovement : Attackable
                 headingLight = new Vector3(headingLight.x, 0f, headingLight.z);
                 Vector3 directionLight = headingLight / heading.magnitude;
 
-                lightPosition += directionLight * horizontalSpeed * Time.deltaTime;
+                lightPosition += directionLight * horizontalSpeed * Time.deltaTime * (1 - MonsterArms * SlowPerMonsterArm);
 
                 if(lightPosition.magnitude < 1.0f) {
                     lightPosition.Normalize();
