@@ -27,6 +27,7 @@ public class BehaviourTree : MonoBehaviour {
     private float jumpAnimationTimer = 0f;
     private Vector3 jumpStartingPosition;
     private Rigidbody myRigidbody;
+    private AudioSource myAudioSource;
     private float targetSpeed = 0f;
 
     private bool movementBlock;
@@ -89,8 +90,11 @@ public class BehaviourTree : MonoBehaviour {
         myNavMeshAgent = GetComponent<NavMeshAgent>();
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody>();
+        myAudioSource = GetComponent<AudioSource>();
 
         jumpAnimationLength = GetClipLength("MonsterJumpDaniel");
+
+        MakeSound();
 
         EnemyManager.AddEnemy(this);
     }
@@ -115,6 +119,15 @@ public class BehaviourTree : MonoBehaviour {
         }
 
         Root.Evaluate();
+    }
+
+    public void MakeSound() {
+        if (AngerStage == 0)
+            myAudioSource.PlayOneShot(AudioManager.Instance.MonsterSound1);
+        else
+            myAudioSource.PlayOneShot(AudioManager.Instance.MonsterSound2);
+
+        Invoke("MakeSound", UnityEngine.Random.Range(5f, 15f));
     }
     
 
