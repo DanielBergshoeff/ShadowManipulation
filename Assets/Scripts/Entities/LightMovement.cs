@@ -68,10 +68,10 @@ public class LightMovement : Attackable
                 rt = true;
             }
 
-            if (rb && !rt && Height > minHeight) {
+            if (!rb && rt && Height > minHeight) {
                 Height -= Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
             }
-            else if(rt && !rb && Height < maxHeight){
+            else if(!rt && rb && Height < maxHeight){
                 Height += Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
             }
 
