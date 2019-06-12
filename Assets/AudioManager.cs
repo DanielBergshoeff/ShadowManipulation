@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip MonsterSound2;
     public AudioClip HandGrab;
     public AudioClip Heal;
+    public AudioClip HandGrowl;
 
 
     // Start is called before the first frame update

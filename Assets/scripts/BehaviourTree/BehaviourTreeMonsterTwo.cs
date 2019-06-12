@@ -17,6 +17,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
     private float lightDownTimer = 0f;
     private Vector3 heightRemoved;
     private NavMeshAgent myNavMeshAgent;
+    private AudioSource myAudioSource;
     private bool attacking = false;
     private bool attackOnPlayer = false;
     private bool aboveGround = false;
@@ -31,6 +32,8 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
     {
         myAnimator = GetComponent<Animator>();
         myNavMeshAgent = GetComponent<NavMeshAgent>();
+        myAudioSource = GetComponent<AudioSource>();
+        myAudioSource.PlayOneShot(AudioManager.Instance.HandGrowl);
     }
 
     // Update is called once per frame
@@ -118,6 +121,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
         GameManager.Instance.Player.GetComponent<PlayerBehaviour>().MonsterArms += 1;
         GameManager.Instance.LightMovementScript.MonsterArms += 1;
         slowingPlayer = true;
+        myAudioSource.PlayOneShot(AudioManager.Instance.HandGrab);
     }
 
     public void UnslowPlayer() {
@@ -125,6 +129,7 @@ public class BehaviourTreeMonsterTwo : MonoBehaviour
             GameManager.Instance.Player.GetComponent<PlayerBehaviour>().MonsterArms -= 1;
             GameManager.Instance.LightMovementScript.MonsterArms -= 1;
         }
+        myAudioSource.PlayOneShot(AudioManager.Instance.HandGrab);
         Destroy(gameObject);
     }
 }

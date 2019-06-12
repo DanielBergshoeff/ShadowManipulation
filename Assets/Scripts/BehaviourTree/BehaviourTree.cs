@@ -127,7 +127,7 @@ public class BehaviourTree : MonoBehaviour {
         else
             myAudioSource.PlayOneShot(AudioManager.Instance.MonsterSound2);
 
-        Invoke("MakeSound", UnityEngine.Random.Range(5f, 15f));
+        Invoke("MakeSound", UnityEngine.Random.Range(5f, 10f));
     }
     
 
@@ -181,10 +181,9 @@ public class BehaviourTree : MonoBehaviour {
                 attacking = true;
             }
 
-            Debug.Log("Attacking");
+            //Debug.Log("Attacking");
             transform.LookAt(heightRemoved);
             transform.Rotate(new Vector3(0f, 50f, 0f));
-            //transform.rotation = Quaternion.LookRotation(transform.right);
             return NodeStates.RUNNING;
         }
         return NodeStates.FAILURE;
@@ -225,8 +224,6 @@ public class BehaviourTree : MonoBehaviour {
 
     NodeStates Escape() {
         if (scaredTimer <= stageInformation[AngerStage].ScaredTime) { //Play scared animation for ScaredTime amt of seconds
-            //myNavMeshAgent.speed = 0f;
-            //myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
             targetSpeed = 0f;
             scaredTimer += Time.deltaTime;
         }
@@ -247,7 +244,7 @@ public class BehaviourTree : MonoBehaviour {
                 return NodeStates.FAILURE;
             }
             else {
-                Debug.Log("Circle around target");
+                //Debug.Log("Circle around target");
                 walkAroundTimer += Time.deltaTime;
                 Vector3 target = (Quaternion.AngleAxis(10f, Vector3.up) * start.normalized).normalized;
 
