@@ -4487,6 +4487,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &513903833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513903834}
+  - component: {fileID: 513903835}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513903834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513903833}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513903835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513903833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573489e5c3db7e84a9d5bd2b62ce388a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterSound1: {fileID: 8300000, guid: b68b45b8db8fd4349be6e021c9878fd4, type: 3}
+  MonsterSound2: {fileID: 8300000, guid: 2b899cc2d641e1d43ad42e196462a79e, type: 3}
+  HandGrab: {fileID: 8300000, guid: 7d8d9966de429e8428a77b822258de32, type: 3}
+  Heal: {fileID: 8300000, guid: df7de82c65bc32246839d3f2c383a044, type: 3}
 --- !u!4 &517389056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 281326737709183096, guid: a709ad77fd251814a996b3c1b837a0be,
