@@ -17,6 +17,7 @@ public class BehaviourTree : MonoBehaviour {
     private float walkAroundTimer = 0.0f;
     private float attackTime = 0.0f;
     private bool attacking = false;
+    private bool midAttack = false;
     private float scaredTimer;
     private float jumpTimer = 0f;
     private bool jumpstart = true;
@@ -56,6 +57,7 @@ public class BehaviourTree : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        Debug.Log("HULLO?");
         SetPlayerTargetAction = new ActionNode(SetPlayerTarget);
         SetLightTargetAction = new ActionNode(SetLightTarget);
         AttackTargetAction = new ActionNode(AttackTarget);
@@ -93,6 +95,7 @@ public class BehaviourTree : MonoBehaviour {
         myAudioSource = GetComponent<AudioSource>();
 
         jumpAnimationLength = GetClipLength("MonsterJumpDaniel");
+        Debug.Log(jumpAnimationLength);
 
         MakeSound();
 
@@ -165,6 +168,11 @@ public class BehaviourTree : MonoBehaviour {
 
     public void EndAttack() {
         attacking = false;
+        midAttack = false;
+    }
+
+    public void MidAttack() {
+        midAttack = true;
     }
 
     NodeStates AttackTarget() {
@@ -224,6 +232,7 @@ public class BehaviourTree : MonoBehaviour {
 
     NodeStates Escape() {
         if (scaredTimer <= stageInformation[AngerStage].ScaredTime) { //Play scared animation for ScaredTime amt of seconds
+            myAnimator.SetBool("Scared", true);
             targetSpeed = 0f;
             scaredTimer += Time.deltaTime;
         }
@@ -231,7 +240,6 @@ public class BehaviourTree : MonoBehaviour {
             var targetHeading = LightManager.Instance.AveragePos - transform.position;
             var targetDirection = targetHeading / (targetHeading.magnitude);
             targetSpeed = stageInformation[AngerStage].Speed;
-            myAnimator.SetBool("Scared", true);
             myNavMeshAgent.SetDestination(transform.position - targetDirection);
         }
         return NodeStates.RUNNING;
@@ -293,6 +301,7 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = 0f;
             jumpstart = true;
             transform.position = targetPosition;
+            myNavMeshAgent.enabled = true;
         }
         else {
             Vector3 heading = transform.position - heightRemoved;
@@ -306,6 +315,7 @@ public class BehaviourTree : MonoBehaviour {
             }
             targetPosition = target;
             jumpTargetSet = true;
+            myNavMeshAgent.enabled = false;
         }
     }
 
@@ -362,7 +372,7 @@ public class BehaviourTree : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (Target != null) {
-            if (other.gameObject == Target.gameObject && attacking) {
+            if (other.gameObject == Target.gameObject && midAttack) {
                 Target.TakeDamage(stageInformation[AngerStage].Damage);
                 if (Target.CompareTag("Light")) {
                     Destroy(gameObject);

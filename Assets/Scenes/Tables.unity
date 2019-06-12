@@ -3202,6 +3202,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GamblingTable (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 357905193643188888, guid: d62fc68846a665547835eea36af39aef,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5349209133209432407, guid: d62fc68846a665547835eea36af39aef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3669,6 +3674,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BeerSpill
+      objectReference: {fileID: 0}
+    - target: {fileID: 4035457413389635203, guid: b3205d1751cea9b499795c9082851d32,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3622426162740103220, guid: b3205d1751cea9b499795c9082851d32,
         type: 3}
@@ -6905,6 +6915,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BeerSpill (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4035457413389635203, guid: b3205d1751cea9b499795c9082851d32,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3622426162740103220, guid: b3205d1751cea9b499795c9082851d32,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9403,7 +9418,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543972191}
-  m_LocalRotation: {x: 0.23663916, y: 0.63464713, z: -0.21330443, w: 0.70407826}
+  m_LocalRotation: {x: 0.2366389, y: 0.63464713, z: -0.21330467, w: 0.70407826}
   m_LocalPosition: {x: -67.81, y: -4.09, z: -16.62}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1}
   m_Children:
@@ -9712,6 +9727,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 601705288314118673, guid: bb024f5fca0bf0c4898f09d4348222ba,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 86d6fa960c16a2b46968b6586a9897d5, type: 3}
     - target: {fileID: 461888841, guid: bb024f5fca0bf0c4898f09d4348222ba, type: 3}
       propertyPath: m_Constraints
       value: 112
@@ -9724,11 +9744,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2534240579ba22f45b53a82c5364f9a4, type: 2}
-    - target: {fileID: 601705288314118673, guid: bb024f5fca0bf0c4898f09d4348222ba,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 86d6fa960c16a2b46968b6586a9897d5, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb024f5fca0bf0c4898f09d4348222ba, type: 3}
 --- !u!1 &556724004
@@ -17406,7 +17421,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114203868}
-  m_LocalRotation: {x: 0.29723516, y: -0.63690656, z: 0.2917859, w: 0.6487391}
+  m_LocalRotation: {x: 0.29723522, y: -0.6369065, z: 0.29178596, w: 0.64873904}
   m_LocalPosition: {x: -49.91, y: 1.1399994, z: -15.85}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children:
@@ -19538,7 +19553,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337509218}
-  m_LocalRotation: {x: 0.1906959, y: 0.6797014, z: -0.1899654, w: 0.68231535}
+  m_LocalRotation: {x: 0.19069587, y: 0.6797014, z: -0.18996537, w: 0.68231535}
   m_LocalPosition: {x: -71.9303, y: -2.5798016, z: -15.73631}
   m_LocalScale: {x: 1.0000005, y: 0.9999999, z: 1}
   m_Children:
@@ -20101,7 +20116,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1373104790
 Transform:
@@ -27707,7 +27722,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676707833}
-  m_LocalRotation: {x: 0.049968276, y: 0.62907994, z: -0.04057662, w: 0.774671}
+  m_LocalRotation: {x: 0.049968373, y: 0.62907994, z: -0.04057659, w: 0.774671}
   m_LocalPosition: {x: -87.94, y: -4.09, z: -21.79}
   m_LocalScale: {x: 1.0000002, y: 0.9999999, z: 1.0000002}
   m_Children:
@@ -33361,6 +33376,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GamblingTable
+      objectReference: {fileID: 0}
+    - target: {fileID: 357905193643188888, guid: d62fc68846a665547835eea36af39aef,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 5349209133209432407, guid: d62fc68846a665547835eea36af39aef,
         type: 3}
