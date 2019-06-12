@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AngerToStage: 0
   Size: 1.5
-  ViewRange: 10
+  ViewRange: 12
   AttackRange: 1
   Damage: 1
   AttackTime: 0.5
   Speed: 4
-  DistanceToCircleAt: 8
+  DistanceToCircleAt: 6
   MinTimeTillAttack: 5
   MaxTimeTillAttack: 10
   ScaredTime: 3
