@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.033944797, g: 0.026894791, b: 0.015915304, a: 1}
+  m_IndirectSpecularColor: {r: 0.033944793, g: 0.026894791, b: 0.015915304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10593,7 +10593,7 @@ MonoBehaviour:
   LightMovementScript: {fileID: 0}
   LightObject: {fileID: 245401790}
   Player: {fileID: 949991571}
-  currentCheckPoint: {fileID: 0}
+  currentCheckPoint: {fileID: 320771247}
   checkPoints:
   - {fileID: 320771247}
   - {fileID: 646757284}
@@ -16612,7 +16612,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114203868}
-  m_LocalRotation: {x: 0.2972352, y: -0.6369065, z: 0.29178593, w: 0.64873904}
+  m_LocalRotation: {x: 0.29723513, y: -0.63690656, z: 0.29178587, w: 0.6487391}
   m_LocalPosition: {x: -49.91, y: 1.1399994, z: -15.85}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children:
@@ -18744,7 +18744,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337509218}
-  m_LocalRotation: {x: 0.19069593, y: 0.6797014, z: -0.18996543, w: 0.68231535}
+  m_LocalRotation: {x: 0.19069587, y: 0.6797014, z: -0.18996537, w: 0.68231535}
   m_LocalPosition: {x: -71.9303, y: -2.5798016, z: -15.73631}
   m_LocalScale: {x: 1.0000005, y: 0.9999999, z: 1}
   m_Children:
@@ -26799,7 +26799,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676707833}
-  m_LocalRotation: {x: 0.12504625, y: 0.69471645, z: -0.12458508, w: 0.69728833}
+  m_LocalRotation: {x: 0.12504627, y: 0.69471645, z: -0.12458509, w: 0.69728833}
   m_LocalPosition: {x: -73.67, y: -5.4400005, z: -15.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
