@@ -57,7 +57,6 @@ public class BehaviourTree : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        Debug.Log("HULLO?");
         SetPlayerTargetAction = new ActionNode(SetPlayerTarget);
         SetLightTargetAction = new ActionNode(SetLightTarget);
         AttackTargetAction = new ActionNode(AttackTarget);
@@ -95,8 +94,6 @@ public class BehaviourTree : MonoBehaviour {
         myAudioSource = GetComponent<AudioSource>();
 
         jumpAnimationLength = GetClipLength("MonsterJumpDaniel");
-        Debug.Log(jumpAnimationLength);
-
         MakeSound();
 
         EnemyManager.AddEnemy(this);
