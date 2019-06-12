@@ -35,7 +35,7 @@ Material:
     - Vector1_F41E94FE: 0.015
     m_Colors:
     - Color_2BF9FA3A: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 0}
-    - Vector2_12EFAAA9: {r: 2, g: 2, b: 0, a: 0}
+    - Vector2_12EFAAA9: {r: 2.9, g: 2, b: 0, a: 0}
     - Vector2_969F9A5C: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_B2255969: {r: 0.34, g: 1.03, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
