@@ -298,7 +298,7 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = 0f;
             jumpstart = true;
             transform.position = targetPosition;
-            myNavMeshAgent.enabled = true;
+            //myNavMeshAgent.enabled = true;
         }
         else {
             Vector3 heading = transform.position - heightRemoved;
@@ -312,7 +312,7 @@ public class BehaviourTree : MonoBehaviour {
             }
             targetPosition = target;
             jumpTargetSet = true;
-            myNavMeshAgent.enabled = false;
+            //myNavMeshAgent.enabled = false;
         }
     }
 

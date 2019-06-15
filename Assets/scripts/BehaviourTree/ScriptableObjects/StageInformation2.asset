@@ -25,5 +25,5 @@ MonoBehaviour:
   ScaredTime: 1
   MinJumpTime: 1
   MaxJumpTime: 3
-  MinJumpLength: 8
+  MinJumpLength: 3
   MaxJumpLength: 30
