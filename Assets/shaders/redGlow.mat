@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: redGlow
+  m_Shader: {fileID: 4800000, guid: b1f059fc61b65c74db4f17200165bec8, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_1A56888F: 10
+    - Vector1_6A0AD5E5: 0
+    - Vector1_B89B44F8: 0.37
+    - _Speed: 0.1
+    m_Colors:
+    - Color_7D2D1C7F: {r: 2.9184864, g: 1.1462911, b: 1.0049504, a: 0}
+    - Color_FF47E112: {r: 1, g: 0.9838838, b: 0.3915094, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
