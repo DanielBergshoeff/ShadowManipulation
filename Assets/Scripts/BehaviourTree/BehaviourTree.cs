@@ -170,6 +170,7 @@ public class BehaviourTree : MonoBehaviour {
 
     public void MidAttack() {
         midAttack = true;
+
     }
 
     NodeStates AttackTarget() {
@@ -352,6 +353,17 @@ public class BehaviourTree : MonoBehaviour {
         }
 
         return NodeStates.FAILURE;
+    }
+
+    public void GetCollidersTransform(Transform t, ref List<Collider> colliders) {
+        Collider c = t.GetComponent<Collider>();
+        if (c != null) {
+            colliders.Add(c);
+        }
+        for (int i = 0; i < t.childCount; i++) {
+            Transform tChild = t.GetChild(i);
+            GetCollidersTransform(tChild, ref colliders);
+        }
     }
 
     private float GetClipLength(string clipName) {
