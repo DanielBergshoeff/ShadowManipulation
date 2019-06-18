@@ -25,15 +25,26 @@ public class ControlShaderSphere : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
             defendPeter = !defendPeter;
-        if (defendPeter && currentSpeed <= maxSpeed) {
-            currentSpeed += Time.deltaTime;
+        if (defendPeter && currentSpeed < maxSpeed) {
+            if (currentSpeed + Time.deltaTime < maxSpeed) {
+                currentSpeed += Time.deltaTime;
+            }
+            else {
+                currentSpeed = maxSpeed;
+            }
+
             float f = (currentSpeed - minSpeed) / (maxSpeed - minSpeed) * (maxSize - minSize) + minSize;
-            transform.localScale = new Vector3(f,f,f);
+            transform.localScale = new Vector3(f, f, f);
             mat.SetFloat("_Lerp", (currentSpeed - minSpeed) / (maxSpeed - minSpeed) * (1.0f - 0f) + 0f);
             mat.SetFloat("_Speed", currentSpeed);
         }
-        else if(!defendPeter && currentSpeed >= minSpeed) {
-            currentSpeed -= Time.deltaTime;
+        else if(!defendPeter && currentSpeed > minSpeed) {
+            if (currentSpeed - Time.deltaTime > minSpeed) {
+                currentSpeed -= Time.deltaTime;
+            }
+            else {
+                currentSpeed = minSpeed;
+            }
             float f = (currentSpeed - minSpeed) / (maxSpeed - minSpeed) * (maxSize - minSize) + minSize;
             transform.localScale = new Vector3(f, f, f);
             mat.SetFloat("_Lerp", (currentSpeed - minSpeed) / (maxSpeed - minSpeed) * (1.0f - 0f) + 0f);
