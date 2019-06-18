@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using InControl;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.HDPipeline;
@@ -57,16 +58,23 @@ public class LightMovement : Attackable
         if (StayOnPlayer) {
             //transform.position = GameManager.Instance.Player.transform.position + Vector3.up * 1.0f;
 
-            float horizontal = Input.GetAxis("HorizontalTurn");
-            float vertical = Input.GetAxis("VerticalTurn");
+            //float horizontal = Input.GetAxis("HorizontalTurn");
+            //float vertical = Input.GetAxis("VerticalTurn");
+
+            float horizontal = InputManager.ActiveDevice.RightStickX;
+            float vertical = -InputManager.ActiveDevice.RightStickY;
             float maxLength = 5.0f;
 
-            bool rb = Input.GetButton("RB");
-            bool rt = false;
-            float rtbtn = Input.GetAxis("RT");
+            //bool rb = Input.GetButton("RB");
+            //bool rt = false;
+
+            bool rb = InputManager.ActiveDevice.RightBumper;
+            bool rt = InputManager.ActiveDevice.RightTrigger;
+
+            /*float rtbtn = Input.GetAxis("RT");
             if(rtbtn > 0.2f) {
                 rt = true;
-            }
+            }*/
 
             if (!rb && rt && Height > minHeight) {
                 Height -= Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
