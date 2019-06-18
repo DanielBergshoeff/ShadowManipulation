@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using InControl;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,8 +43,10 @@ public class PlayerBehaviour : Attackable {
             return;
         }
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        //float horizontal = Input.GetAxis("Horizontal");
+        //float vertical = Input.GetAxis("Vertical");
+        float horizontal = InputManager.ActiveDevice.LeftStickX;
+        float vertical = InputManager.ActiveDevice.LeftStickY;
         float combination = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
 
         if (Mathf.Abs(horizontal) + Mathf.Abs(vertical) > 1.0f) {

@@ -154,7 +154,7 @@ MonoBehaviour:
     supportSubsurfaceScattering: 1
     increaseSssSampleCount: 0
     supportVolumetrics: 1
-    increaseResolutionOfVolumetrics: 1
+    increaseResolutionOfVolumetrics: 0
     supportLightLayers: 1
     supportDistortion: 1
     supportTransparentBackface: 1
@@ -163,7 +163,7 @@ MonoBehaviour:
     supportedLitShaderMode: 2
     supportDecals: 1
     msaaSampleCount: 1
-    supportMotionVectors: 1
+    supportMotionVectors: 0
     supportRuntimeDebugDisplay: 1
     supportDitheringCrossFade: 1
     supportRayTracing: 0
@@ -200,6 +200,6 @@ MonoBehaviour:
       atlasHeight: 4096
       perChannelMask: 0
   allowShaderVariantStripping: 1
-  enableSRPBatcher: 0
+  enableSRPBatcher: 1
   enableVariantStrippingLog: 0
   diffusionProfileSettings: {fileID: 0}
