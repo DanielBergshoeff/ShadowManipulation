@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_dissolve
-  m_Shader: {fileID: 4800000, guid: ac25ecba90c45914a940f002076bea4b, type: 3}
+  m_Name: Shader Graphs_wallShader
+  m_Shader: {fileID: 4800000, guid: b1b071957a7e61341963166935334c34, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 1
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -22,17 +22,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: 3bdf88dc7d5230b4099dee81cbe4d4ed, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3d8675433a508ec47b8f895201eacf20, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_EA2602A6_Out:
-        m_Texture: {fileID: 2800000, guid: 3bdf88dc7d5230b4099dee81cbe4d4ed, type: 3}
+    - _Texture2DAsset_E713D183_Out:
+        m_Texture: {fileID: 2800000, guid: fc804ffff2daad146a5ee9431906cfef, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_89C85E1F: 1000
-    - Vector1_BEEEBCF0: 0.44
-    - Vector1_D777A8DB: -0.6
+    - _Speed: -1
     m_Colors:
-    - Color_2FB8E1A8: {r: 2.2426393, g: 0, b: 1.4798827, a: 0}
+    - _Color: {r: 1, g: 0.6273585, b: 0.8478574, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
