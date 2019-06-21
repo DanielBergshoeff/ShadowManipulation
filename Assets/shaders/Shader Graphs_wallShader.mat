@@ -36,5 +36,5 @@ Material:
     m_Floats:
     - _Speed: -1
     m_Colors:
-    - _Color: {r: 1, g: 0.53083634, b: 0.43867922, a: 0}
+    - _Color: {r: 0.43921566, g: 1, b: 0.63783914, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
