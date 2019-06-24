@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class VirtualCameraManager : MonoBehaviour
 {
@@ -34,5 +35,7 @@ public class VirtualCameraManager : MonoBehaviour
             virtualCams.Add(cam);
             cam.SetActive(false);
         }
+        cam.GetComponent<CinemachineVirtualCamera>().m_Lens.FarClipPlane = 150f;
+        cam.GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 0.1f;
     }
 }
