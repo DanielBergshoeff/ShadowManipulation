@@ -11,10 +11,15 @@ public class LightMovement : Attackable
     public List<float> intensityLevels;
     public bool StayOnPlayer = false;
 
+    public float SlowPerMonsterArm = 0.1f;
+    public float MaxSlow = 0.4f;
+    public int MonsterArms = 0;
+
     private int currentCubeTarget = 0;
     private bool lastCubeReached = false;
     public HDAdditionalLightData sphereLight;
     private bool wait = false;
+    private bool throwup = false;
 
     private Vector3 lightPosition;
     private Vector3 targetLightPosition;
@@ -23,6 +28,8 @@ public class LightMovement : Attackable
     public float minHeight = 1.0f;
     public float maxHeight = 5.0f;
     public float verticalSpeed = 3.0f;
+    public float verticalSpeedThrown = 10.0f;
+    public float verticalHeightThrown = 10.0f;
     public float horizontalSpeed = 5.0f;
 
     // Start is called before the first frame update
@@ -61,11 +68,22 @@ public class LightMovement : Attackable
                 rt = true;
             }
 
-            if (rb && !rt && Height > minHeight) {
+            if (!rb && rt && Height > minHeight) {
+                Height -= Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
+            }
+            else if(!rt && rb && Height < maxHeight){
+                Height += Time.deltaTime * verticalSpeed * (1 - MonsterArms * SlowPerMonsterArm);
+            }
+
+            if(Height > maxHeight && !throwup) {
                 Height -= Time.deltaTime * verticalSpeed;
             }
-            else if(rt && !rb && Height < maxHeight){
-                Height += Time.deltaTime * verticalSpeed;
+            else if(throwup && Height < verticalHeightThrown) {
+                Height += Time.deltaTime * verticalSpeedThrown;
+            }
+            else if(throwup && Height >= verticalHeightThrown) {
+                Height -= Time.deltaTime * verticalSpeed;
+                throwup = false;
             }
 
             Vector3 heading = Camera.main.transform.position - transform.position;
@@ -90,7 +108,7 @@ public class LightMovement : Attackable
                 headingLight = new Vector3(headingLight.x, 0f, headingLight.z);
                 Vector3 directionLight = headingLight / heading.magnitude;
 
-                lightPosition += directionLight * horizontalSpeed * Time.deltaTime;
+                lightPosition += directionLight * horizontalSpeed * Time.deltaTime * (1 - MonsterArms * SlowPerMonsterArm);
 
                 if(lightPosition.magnitude < 1.0f) {
                     lightPosition.Normalize();
@@ -156,5 +174,9 @@ public class LightMovement : Attackable
                 sphereLight.intensity = intensityLevels[Health];
             }
         }
+    }
+
+    public void ThrowUp() {
+        throwup = true;
     }
 }

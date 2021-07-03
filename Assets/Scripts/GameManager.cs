@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Respawn() {
-        Invoke("ReloadScene", 5.0f);
+    public void Respawn(float waitTime) {
+        Invoke("ReloadScene", waitTime);
     }
 
     public void ReloadScene() {

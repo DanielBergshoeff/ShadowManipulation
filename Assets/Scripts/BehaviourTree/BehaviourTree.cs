@@ -10,6 +10,7 @@ public class BehaviourTree : MonoBehaviour {
     public int AngerStage = 0;
     public StageInformation[] stageInformation;
     public float animationTime = 3.0f;
+    public int StageToAddJump = 1;
 
 
     private float attackCharge = 0.0f;
@@ -26,6 +27,10 @@ public class BehaviourTree : MonoBehaviour {
     private float jumpAnimationTimer = 0f;
     private Vector3 jumpStartingPosition;
     private Rigidbody myRigidbody;
+    private AudioSource myAudioSource;
+    private float targetSpeed = 0f;
+
+    private bool movementBlock;
 
     private Animator myAnimator;
     public LayerMask layerObstructions;
@@ -76,27 +81,37 @@ public class BehaviourTree : MonoBehaviour {
         RootSequenceStageOne = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreat }); //Set target, if target is set, check whether to attack or retreat
         RootSequenceStageTwo = new Sequence(new List<Node>() { SetTargetSelector, AttackOrRetreatTwo});
 
-        if (AngerStage == 0)
-            Root = RootSequenceStageOne;
-        else if (AngerStage == 1)
+        if (AngerStage >= StageToAddJump)
             Root = RootSequenceStageTwo;
+        else
+            Root = RootSequenceStageOne;
 
         attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
         myNavMeshAgent = GetComponent<NavMeshAgent>();
-
         myAnimator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody>();
+        myAudioSource = GetComponent<AudioSource>();
 
         jumpAnimationLength = GetClipLength("MonsterJumpDaniel");
-        Debug.Log(jumpAnimationLength);
+
+        MakeSound();
 
         EnemyManager.AddEnemy(this);
     }
 
     // Update is called once per frame
     void Update() {
-        if(Target != null)
-            heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z); //Calculate the distance from the target
+        if (Mathf.Abs(Mathf.Abs(myNavMeshAgent.speed) - Mathf.Abs(targetSpeed)) < 0.1f) {
+            myNavMeshAgent.speed = targetSpeed;
+        }
+        else if (myNavMeshAgent.speed > targetSpeed) {
+            myNavMeshAgent.speed -= Time.deltaTime * 5.0f;
+        }
+        else if (myNavMeshAgent.speed < targetSpeed) {
+            myNavMeshAgent.speed += Time.deltaTime * 5.0f;
+        }
+        
+        myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
 
         if (attacking) {
             AttackTarget();
@@ -104,25 +119,45 @@ public class BehaviourTree : MonoBehaviour {
         }
 
         Root.Evaluate();
-        
     }
 
-    NodeStates SetPlayerTarget() {
-        float distPlayer = Vector3.Distance(transform.position, GameManager.Instance.Player.transform.position);
-        float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
-        if (distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange && distPlayer <= stageInformation[AngerStage].ViewRange) {
-            Target = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
-            return NodeStates.SUCCESS;
-        }
+    public void MakeSound() {
+        if (AngerStage == 0)
+            myAudioSource.PlayOneShot(AudioManager.Instance.MonsterSound1);
+        else
+            myAudioSource.PlayOneShot(AudioManager.Instance.MonsterSound2);
 
+        Invoke("MakeSound", UnityEngine.Random.Range(5f, 10f));
+    }
+    
+
+    NodeStates SetPlayerTarget() {
+        Vector3 heading = GameManager.Instance.Player.transform.position - transform.position;
+        float distPlayer = heading.sqrMagnitude;
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, heading.normalized, out hit, stageInformation[AngerStage].ViewRange)) {
+            if(hit.collider.gameObject == GameManager.Instance.Player) {
+                float distPlayerFromLight = Vector3.Distance(GameManager.Instance.LightObject.transform.position, GameManager.Instance.Player.transform.position);
+                if ((distPlayerFromLight > LightManager.Instance.light.GetComponent<HDAdditionalLightData>().intensity * LightManager.Instance.lightRange || GameManager.Instance.LightMovementScript.Height > GameManager.Instance.LightMovementScript.maxHeight) && distPlayer <= stageInformation[AngerStage].ViewRange * stageInformation[AngerStage].ViewRange) {
+                    Target = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
+                    return NodeStates.SUCCESS;
+                }
+            }
+        }
         return NodeStates.FAILURE;
     }
 
     NodeStates SetLightTarget() {
-        float distLight = Vector3.Distance(transform.position, GameManager.Instance.LightObject.transform.position);
-        if (distLight <= stageInformation[AngerStage].ViewRange) {
-            Target = GameManager.Instance.LightMovementScript;
-            return NodeStates.SUCCESS;
+        Vector3 heading = GameManager.Instance.LightObject.transform.position - transform.position;
+        float distLight = heading.sqrMagnitude;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, heading.normalized, out hit, stageInformation[AngerStage].ViewRange)) {
+            if (hit.collider.gameObject == GameManager.Instance.LightObject) {
+                if (distLight <= stageInformation[AngerStage].ViewRange * stageInformation[AngerStage].ViewRange) {
+                    Target = GameManager.Instance.LightMovementScript;
+                    return NodeStates.SUCCESS;
+                }
+            }
         }
 
         return NodeStates.FAILURE;
@@ -130,7 +165,6 @@ public class BehaviourTree : MonoBehaviour {
 
     public void EndAttack() {
         attacking = false;
-        myNavMeshAgent.enabled = true;
     }
 
     NodeStates AttackTarget() {
@@ -141,38 +175,36 @@ public class BehaviourTree : MonoBehaviour {
             if (!attacking) {
                 myAnimator.SetTrigger("Attack");
                 myAnimator.SetFloat("Speed", 0f);
-                myNavMeshAgent.enabled = false;
-                transform.LookAt(Target.transform);
+                targetSpeed = 0f;
+                transform.LookAt(heightRemoved);
                 transform.rotation = Quaternion.LookRotation(transform.right);
                 attacking = true;
             }
 
-            transform.LookAt(Target.transform);
-            transform.rotation = Quaternion.LookRotation(transform.right);
-            //attackCharge += Time.deltaTime;
+            //Debug.Log("Attacking");
+            transform.LookAt(heightRemoved);
+            transform.Rotate(new Vector3(0f, 50f, 0f));
             return NodeStates.RUNNING;
-
-            /*if (attackCharge >= stageInformation[AngerStage].AttackTime) {//If the attack has been charged up, apply damage and reset timers
-                walkAroundTimer = 0.0f;
-                attackTime = Random.Range(stageInformation[AngerStage].MinTimeTillAttack, stageInformation[AngerStage].MaxTimeTillAttack);
-                Target.TakeDamage(stageInformation[AngerStage].Damage);
-                Destroy(gameObject);
-                return NodeStates.SUCCESS;
-            }
-            else {
-                return NodeStates.RUNNING;
-            }*/
         }
-        //attackCharge = 0.0f;
         return NodeStates.FAILURE;
     }
 
     NodeStates CheckIfScared() {
+        heightRemoved = new Vector3(Target.transform.position.x, transform.position.y, Target.transform.position.z);
+
         if (jumping || preparingJump)
             return NodeStates.FAILURE;
-
+        float speedCalculation = 0f;
         float distShadow = Vector3.Distance(transform.position, LightManager.Instance.AveragePos);
-        float speedCalculation = stageInformation[AngerStage].Size * distShadow - LightManager.Instance.SizeShadow;
+        if (LightManager.Instance.ShadowFound) {
+            if (distShadow > 1.0f)
+                speedCalculation = stageInformation[AngerStage].Size * distShadow - LightManager.Instance.SizeShadow;
+            else
+                speedCalculation = stageInformation[AngerStage].Size - LightManager.Instance.SizeShadow;
+        }
+        else {
+            speedCalculation = 50f;
+        }
         speedCalculation = Mathf.Clamp(speedCalculation / 50, -stageInformation[AngerStage].Speed, stageInformation[AngerStage].Speed);
         bool positive = speedCalculation >= 0;
 
@@ -185,23 +217,20 @@ public class BehaviourTree : MonoBehaviour {
     }
 
     NodeStates MoveToTarget() {
-        myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-        myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
-        myNavMeshAgent.SetDestination(Target.transform.position);
+        targetSpeed = stageInformation[AngerStage].Speed;
+        myNavMeshAgent.SetDestination(heightRemoved);
         return NodeStates.RUNNING;
     }
 
     NodeStates Escape() {
         if (scaredTimer <= stageInformation[AngerStage].ScaredTime) { //Play scared animation for ScaredTime amt of seconds
-            myNavMeshAgent.speed = 0f;
-            myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
+            targetSpeed = 0f;
             scaredTimer += Time.deltaTime;
         }
         else { //After being scared start running away
             var targetHeading = LightManager.Instance.AveragePos - transform.position;
             var targetDirection = targetHeading / (targetHeading.magnitude);
-            myNavMeshAgent.speed = stageInformation[AngerStage].Speed;
-            myAnimator.SetFloat("Speed", myNavMeshAgent.speed);
+            targetSpeed = stageInformation[AngerStage].Speed;
             myAnimator.SetBool("Scared", true);
             myNavMeshAgent.SetDestination(transform.position - targetDirection);
         }
@@ -210,13 +239,12 @@ public class BehaviourTree : MonoBehaviour {
 
     NodeStates CircleAroundTarget() {
         Vector3 start = heightRemoved - transform.position;
-
         if(start.sqrMagnitude <= stageInformation[AngerStage].DistanceToCircleAt * stageInformation[AngerStage].DistanceToCircleAt) { //If the Target is close enough to start circling around it
-
             if(walkAroundTimer >= attackTime) { //If this entity has been walking around for longer than the attackTime variable
                 return NodeStates.FAILURE;
             }
             else {
+                //Debug.Log("Circle around target");
                 walkAroundTimer += Time.deltaTime;
                 Vector3 target = (Quaternion.AngleAxis(10f, Vector3.up) * start.normalized).normalized;
 
@@ -243,11 +271,12 @@ public class BehaviourTree : MonoBehaviour {
             if (AngerLevel > stageInformation[AngerStage+1].AngerToStage) {
                 AngerStage++;
                 AngerLevel = 0f;
-                if(AngerStage == 0) {
-                    Root = RootSequenceStageOne;
-                }
-                else if(AngerStage == 1) {
+                
+                if(AngerStage == StageToAddJump) {
                     Root = RootSequenceStageTwo;
+                }
+                else {
+                    Root = RootSequenceStageOne;
                 }
             }
         }
@@ -264,7 +293,6 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = 0f;
             jumpstart = true;
             transform.position = targetPosition;
-            myNavMeshAgent.enabled = true;
         }
         else {
             Vector3 heading = transform.position - heightRemoved;
@@ -286,21 +314,22 @@ public class BehaviourTree : MonoBehaviour {
             jumpTimer = Random.Range(stageInformation[AngerStage].MinJumpTime, stageInformation[AngerStage].MaxJumpTime);
         }
         else if(jumpTimer < 0f) {
-            if(jumpstart && (transform.position - heightRemoved).magnitude >= stageInformation[AngerStage].MinJumpLength) {
+            if (jumpstart && (transform.position - heightRemoved).magnitude >= stageInformation[AngerStage].MinJumpLength) {
                 //Start jump preparing animation
                 myAnimator.SetTrigger("Jump");
-                
-                myNavMeshAgent.enabled = false;
+                targetSpeed = 0f;
+                myNavMeshAgent.speed = 0f;
+
                 jumpstart = false;
                 preparingJump = true;
                 jumpAnimationTimer = 0f;
                 jumpStartingPosition = transform.position;
-                transform.LookAt(Target.transform);
+                transform.LookAt(heightRemoved);
                 //Debug.Log("Start jump");
             }
             else if (jumping) {                
                 //Play jumping animation
-                transform.LookAt(Target.transform);
+                transform.LookAt(heightRemoved);
                 jumpAnimationTimer += Time.deltaTime;
                 jumpAnimationTimer = Mathf.Clamp(jumpAnimationTimer, 0f, jumpAnimationLength);
                 transform.position = Vector3.Lerp(jumpStartingPosition, targetPosition, jumpAnimationTimer / jumpAnimationLength);
@@ -335,6 +364,9 @@ public class BehaviourTree : MonoBehaviour {
         if (Target != null) {
             if (other.gameObject == Target.gameObject && attacking) {
                 Target.TakeDamage(stageInformation[AngerStage].Damage);
+                if (Target.CompareTag("Light")) {
+                    Destroy(gameObject);
+                }
             }
         }
     }

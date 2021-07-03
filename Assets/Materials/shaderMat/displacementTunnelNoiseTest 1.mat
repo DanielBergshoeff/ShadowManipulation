@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: displacementTunnelNoiseTest 1
+  m_Shader: {fileID: 4800000, guid: f86b598fad113f840817aece695e3869, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_FE3F809A:
+        m_Texture: {fileID: 2800000, guid: 7a2251698b08a0049a31c29b5df1801e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3448E0D3_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_3CF150E7: 1
+    - Vector1_83D0C2DC: 0.44
+    - Vector1_F41E94FE: 0.018
+    m_Colors:
+    - Color_2BF9FA3A: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 0}
+    - Vector2_12EFAAA9: {r: 2.9, g: 2, b: 0, a: 0}
+    - Vector2_969F9A5C: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_B2255969: {r: 0.34, g: 1.03, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _PlayerPos: {r: 0, g: 0, b: 0, a: 0}
